@@ -1,4 +1,7 @@
-# Ecommerce Expo assets
+# Inherited Ecommerce Expo assets
+
+These files came with the Ecommerce Expo clone. Berlin artwork can replace
+them in place; keep the filenames the build already expects.
 
 Drop final event artwork here using these exact filenames, then run
 `python build_simple.py`.

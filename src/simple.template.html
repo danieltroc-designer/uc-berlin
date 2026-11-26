@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Uploadcare — Ecommerce Expo booth</title>
+<title>Uploadcare — Berlin booth</title>
 <style>
 /*__COMMIT_MONO__*/
 /*__INTER_VAR__*/
@@ -1389,6 +1389,13 @@
   .hb-outro-qr{position:absolute;left:857px;top:711px;
     width:204px;height:204px;z-index:2}
   .hb-outro-qr svg{width:100%;height:100%;display:block}
+  /* one small mono line under the code, for the cut that has one (Berlin's
+     "Since 2011 · Stand"). Optional: the Expo and Webflow outros leave `meta`
+     unset and draw nothing here. */
+  .hb-outro-meta{position:absolute;left:0;right:0;top:947px;text-align:center;z-index:2;
+    font-family:var(--cmono);font-size:14px;letter-spacing:.18em;line-height:1.065;
+    text-transform:uppercase;color:#8e8e8e;white-space:pre;
+    text-box-trim:trim-both;text-box-edge:cap alphabetic}
   .hb-sign{position:absolute;left:867px;top:186px;width:185px;height:33px;z-index:2}
   .hb-sign svg{height:100%;width:auto;display:block}
 
@@ -1930,6 +1937,164 @@
     opacity:0;transform:scale(.94);z-index:2}
   .ei-lockup svg{display:block;width:339px;height:61px}
 
+  /* =======================================================================
+     Berlin — the four-card, 43-second TV loop.
+
+     Laid out from the "TV loop" storyboard, which reached this project as a
+     1024px screenshot rather than as a Figma frame: positions are its
+     proportions scaled to the 1920 stage, and type is set on the deck's own
+     booth scale (88px headlines) instead of the thumbnail's, which would land
+     around 58px and is too small across a stand. Unlike the inherited cards
+     these are left-aligned, so the ambient substrate is switched off for all
+     four — its left column of blips lands on the first letters of every
+     headline here (see enter()).
+     ======================================================================= */
+  .bp-wrap,.bl-wrap,.bo-wrap,.bi-wrap{position:absolute;inset:0}
+
+  /* Card 1 — the pipeline. Headline and lockup share the top band; the six
+     steps are one 1760px row on the 80px margins, 280px panels on 16px
+     gutters. Each line is trimmed to its cap box, so the 30px between them is
+     a real gap and the lockup can be centred on line 1's caps (y=112). */
+  .bp-head{position:absolute;left:80px;top:80px;font-weight:580;font-size:88px;
+    letter-spacing:-1.32px;line-height:1.065;color:#fff;white-space:nowrap}
+  /* Each line rises from behind its own hard edge rather than fading up. The
+     mask is the outer box and the trimmed text is the inner one, because the
+     trim cuts the box off at the baseline: clipping that box directly would
+     shear the descenders off "pipeline". The padding gives them room and the
+     matching negative margin hands the space back, so the 30px between the
+     lines is still measured cap-bottom to cap-top. */
+  .bp-line{overflow:hidden;padding:.06em 0 .27em;margin:-.06em 0 -.27em}
+  .bp-line+.bp-line{margin-top:calc(30px - .06em)}
+  .bp-line>span{display:block;text-box-trim:trim-both;text-box-edge:cap alphabetic;
+    transform:translateY(160%);transition:transform var(--dur-4) var(--ease-out)}
+  .slide.active .bp-line>span{transform:none}
+  .slide.active .bp-line+.bp-line>span{transition-delay:.09s}
+  .bp-accent{color:var(--brand)}
+  .bp-logo{position:absolute;left:1608px;top:91px;width:232px;height:42.47px}
+  .bp-logo svg{display:block;width:100%;height:100%}
+  .bp-row{position:absolute;left:80px;top:660px;width:1760px;height:340px;
+    display:flex;gap:16px}
+  /* the stagger delay lives on the active rule only: on the base rule it
+     would also delay the way out, and the row would leave one panel at a time
+     underneath the slide's own fade */
+  /* a surface rather than a flat box: lit from above, with a hairline edge
+     and one pixel of top light, the deck's floating-panel material at low
+     volume so six of them in a row stay quiet */
+  .bp-card{position:relative;flex:1 1 0;min-width:0;height:340px;padding:32px;
+    border-radius:24px;background:linear-gradient(180deg,#131313 0%,#0b0b0b 100%);
+    border:1px solid rgba(255,255,255,.06);box-shadow:inset 0 1px 0 rgba(255,255,255,.035);
+    display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;
+    opacity:0;transform:translateY(18px);
+    transition:opacity .22s ease,transform .46s var(--ease-out)}
+  .slide.active .bp-card{opacity:1;transform:none;
+    transition-delay:calc(.14s + var(--i)*.07s)}
+  .bp-copy{position:relative;z-index:1;display:flex;flex-direction:column;gap:22px}
+  .bp-step{font-size:36px;font-weight:580;letter-spacing:-.54px;line-height:1.065;color:#fff;
+    text-box-trim:trim-both;text-box-edge:cap alphabetic;transition:color .36s ease}
+  /* pre-line: the breaks are written into BERLIN_STEPS, because a 216px
+     column left to wrap strands "5 TB" and "optimize" on lines of their own */
+  .bp-proof{font-size:24px;font-weight:500;letter-spacing:-.24px;line-height:1.25;
+    color:#85868b;white-space:pre-line;transition:color .36s ease}
+  .bp-icon{position:relative;z-index:1;width:72px;height:72px;border-radius:14px;
+    background-color:#181818;color:#85868b;display:flex;align-items:center;justify-content:center;
+    transition:color .36s ease,background-color .36s ease}
+  .bp-icon svg{width:34px;height:34px;display:block}
+  /* The highlight is one object that travels, not six that take turns. An
+     earlier cut gave every panel its own ring and crossfaded neighbours,
+     which is correct and reads as a row of lamps; a single frame gliding from
+     step to step reads as something moving through the pipeline, which is
+     what the card is claiming. It sits above the panels as a translucent
+     layer — nothing in it is opaque, so the copy shows through and no
+     stacking has to be arranged — and setupBerlinPipeline() springs it
+     between the panels' own offsets. The ring carries it across a stand; the
+     wash and the glow underneath are what make it a lit surface up close.
+     `.lit` is only the panel's own copy answering the frame's arrival. */
+  .bp-hl{position:absolute;left:0;top:0;width:280px;height:340px;border-radius:24px;
+    pointer-events:none;z-index:2;border:1.5px solid var(--brand);
+    background:linear-gradient(180deg,rgba(255,207,62,.13) 0%,rgba(255,207,62,.03) 72%);
+    box-shadow:0 0 0 1px rgba(255,207,62,.10),0 26px 70px -20px rgba(255,207,62,.34),
+      inset 0 1px 0 rgba(255,255,255,.08);
+    opacity:0;will-change:transform,opacity}
+  .bp-card.lit .bp-step{color:var(--brand);transition-duration:.2s}
+  .bp-card.lit .bp-proof{color:#d9d9dc;transition-duration:.2s}
+  .bp-card.lit .bp-icon{color:var(--brand);background-color:rgba(255,207,62,.14);
+    transition-duration:.2s}
+  /* the icon answers the landing: scoped to the active slide, like every other
+     keyframe animation here, so a card left mid-step does not hold the pose */
+  .slide.active .bp-card.lit .bp-icon svg{animation:bpPop .42s var(--ease-pop)}
+  @keyframes bpPop{from{transform:scale(.84)}to{transform:none}}
+
+  /* Card 2 — the logo wall, in the form the Expo and Webflow decks used: a
+     small centred title and six marks standing free on the stage, two rows of
+     three, no cells. The storyboard drew bordered boxes; they were dropped
+     because six boxes are what you look at first and the marks second. Title
+     and row positions are the Expo wall's (175, then rows centred on 455 and
+     620) and each mark is drawn at its own export size, centred on its slot
+     (BERLIN_WALL), for the reason the inherited walls give: these wordmarks
+     carry very different weight and a shared width makes them ragged. */
+  .bl-title{position:absolute;left:302px;top:175px;width:1316px;text-align:center;
+    font-size:32px;font-weight:580;letter-spacing:-.48px;line-height:1.065;color:#bcbdc0;
+    text-box-trim:trim-both;text-box-edge:cap alphabetic}
+  .bl-logo{position:absolute;color:#fff;display:flex;align-items:center;justify-content:center;
+    opacity:0;transform:translateY(12px);
+    transition:opacity .28s ease,transform .44s var(--ease-out)}
+  .slide.active .bl-logo{opacity:1;transform:none;
+    transition-delay:calc(.12s + var(--i)*.075s)}
+  .bl-logo svg{width:100%;height:100%;display:block}
+  /* a name with no vector yet: a word centred where the mark would be */
+  .bl-word{font-size:27px;font-weight:620;letter-spacing:-.35px;color:#d9d9dc;white-space:nowrap}
+
+  /* Card 3 — one line to the person in the room, centred on the stage's
+     height and hand-broken so the yellow phrase stays on one line. The words
+     arrive in reading order, which puts the yellow ones last: the sentence
+     ends on its point instead of the point being there from the start. */
+  .bo-head{position:absolute;left:136px;top:0;height:1080px;display:flex;flex-direction:column;
+    justify-content:center;font-size:104px;font-weight:580;letter-spacing:-1.56px;
+    line-height:1.065;color:#fff;white-space:nowrap}
+  /* each word also comes into focus as it lands: 8px of blur clearing over
+     the same half second, so the line resolves instead of sliding into place */
+  .bo-w{display:inline-block;opacity:0;transform:translateY(.32em);filter:blur(8px);
+    transition:opacity .38s ease,transform .5s var(--ease-out),filter .5s var(--ease-out)}
+  .slide.active .bo-w{opacity:1;transform:none;filter:blur(0);
+    transition-delay:calc(.12s + var(--i)*70ms)}
+  .bo-w.acc{color:var(--brand)}
+
+  /* Card 4 — identity on the left, the raffle on a lighter right half. The
+     panel is part of the slide and arrives with its fade; only what is in it
+     is staggered, because a second fade inside the slide's own reads as the
+     card arriving twice. Everything is pinned at its own top rather than
+     stacked, so filling in the prize or stand number cannot shove the QR. */
+  .bi-lockup{position:absolute;left:112px;top:400px;height:95px}
+  .bi-lockup svg{display:block;height:100%;width:auto}
+  .bi-tag{position:absolute;left:112px;top:557px;font-size:40px;font-weight:580;
+    letter-spacing:-.6px;line-height:1.065;color:#fff;white-space:nowrap;
+    text-box-trim:trim-both;text-box-edge:cap alphabetic}
+  .bi-meta{position:absolute;left:112px;top:659px;font-family:var(--cmono);font-size:20px;
+    letter-spacing:.16em;line-height:1.065;color:#8e8e8e;text-transform:uppercase;white-space:pre;
+    text-box-trim:trim-both;text-box-edge:cap alphabetic}
+  .bi-raffle{position:absolute;left:950px;top:0;width:970px;height:1080px;
+    background:#101010;border-left:1px solid #1c1c1c}
+  .bi-rt{position:absolute;left:106px;top:310px;font-size:64px;font-weight:600;
+    letter-spacing:-.96px;line-height:1.065;color:var(--brand);white-space:nowrap;
+    text-box-trim:trim-both;text-box-edge:cap alphabetic}
+  .bi-rs{position:absolute;left:106px;top:405px;font-size:36px;font-weight:500;
+    letter-spacing:-.36px;line-height:1.065;color:#e6e6e8;white-space:nowrap;
+    text-box-trim:trim-both;text-box-edge:cap alphabetic}
+  /* The code sits black on a white plate: the storyboard's polarity, and the
+     one every scanner expects. The build emits the modules white for the
+     inherited dark outro, so they are recoloured here. */
+  .bi-qr{position:absolute;left:106px;top:504px;width:280px;height:280px;
+    border-radius:14px;background:#fff;padding:10px}
+  .bi-qr svg{display:block;width:100%;height:100%}
+  .bi-qr path{fill:#090909}
+  /* with `qrConfirmed` off the plate says so instead of showing a code — see
+     R.berlinIdentity */
+  .bi-qr-tbc{display:flex;align-items:center;justify-content:center;text-align:center;
+    font-family:var(--cmono);font-size:22px;letter-spacing:.14em;line-height:1.45;
+    text-transform:uppercase;color:#090909;outline:2px dashed #b4b4b4;outline-offset:-20px}
+  .bi-scan{position:absolute;left:422px;top:606px;font-size:30px;font-weight:500;
+    letter-spacing:-.3px;line-height:1.25;color:#bcbdc0;white-space:nowrap}
+
   @media (prefers-reduced-motion:reduce){
     /* entrance choreography collapses to an instant jump to the settled state
        (opacity cross-fades that aid comprehension are kept where they exist) */
@@ -1961,6 +2126,12 @@
     .pd-dots[data-state="working"] i,.ef-dots[data-state="working"] i{animation:none!important}
     .eb-card,.el-logo{transition:none!important;opacity:1!important;transform:none!important}
     .ce-prompt-cursor{animation:none!important}
+    /* Berlin: every card opens on its settled frame. The pipeline highlight
+       is not scheduled at all under reduced motion (setupBerlinPipeline). */
+    .bp-card,.bl-logo,.bo-w,.bp-line>span{transition:none!important;opacity:1!important;
+      transform:none!important;filter:none!important}
+    .bp-step,.bp-proof,.bp-icon{transition:none!important}
+    .bp-icon svg{animation:none!important}
   }
 </style>
 </head>
@@ -2001,6 +2172,11 @@
     <div id="addmenu">
       <button class="btn accent" id="addBtn">+ Add slide</button>
       <div id="addlist">
+        <button data-type="berlinPipeline">Berlin · Pipeline</button>
+        <button data-type="berlinLogos">Berlin · Logo wall</button>
+        <button data-type="berlinOwnership">Berlin · Ownership line</button>
+        <button data-type="berlinOutro">Berlin · Closer B (globe outro)</button>
+        <button data-type="berlinIdentity">Berlin · Closer A (split)</button>
         <button data-type="commerceFlow">Expo · Product flow</button>
         <button data-type="commerceBenefits">Expo · Benefits</button>
         <button data-type="commerceMetric">Expo · Proof point</button>
@@ -2289,45 +2465,60 @@ function Timeline({reduced=false}={}){
 }
 
 /* ---------------- default deck ---------------- */
-/* ---- Ecommerce Expo — 63-second, seven-card booth loop ----------------
-   Product image in, storefront out; benefits and proof; one focused AI Editor
-   demonstration; customer trust; then the system view and booth CTA.
-   Durations are 10/11/6/13/5/8/10 seconds. Cards 1 and 4 carry longer slots
-   because they demonstrate processes rather than stating a fact, and every
-   beat has to be legible from across a stand. Card 2 gives each of five
-   benefits two full one-second highlights; Card 6 holds its final Uploadcare
-   lockup for two extra seconds. */
+/* ---- Berlin — four-card TV loop, with two candidate closers -----------
+   The stand's banner states the problem and claims it; the screen proves it
+   and hands it back to the person in the room. Pipeline (24s), the customers
+   running it (5s), the one line addressed to the visitor (6s), then identity
+   and the raffle (8s) — the longest card after the pipeline, because scanning
+   a code takes longer than reading a line.
+
+   THE CLOSER IS CURRENTLY IN THE DECK TWICE, on purpose, so the two can be
+   compared on the screen they will run on: `berlinOutro` (the previous decks'
+   globe outro carrying Berlin's copy) and then `berlinIdentity` (the
+   storyboard's split layout). They sit back to back, so the arrow keys flip
+   between them. That makes the loop 51s rather than the storyboard's 43;
+   delete whichever loses and it is 43 again. Both draw the same QR.
+
+   The storyboard lists the pipeline as "12s, twice per loop", back to back.
+   It is one 24s slide whose highlight walks the row twice (`passes`), not two
+   slides: crossfading a card into a copy of itself replays its entrance and
+   reads as the screen restarting. The loop still spends 24 of its 43 seconds
+   there, which is the point — a glance almost always lands on the message.
+
+   No corner glyph: cards 1 and 4 carry the lockup themselves and the
+   storyboard draws none on the other two. Bracketed copy ([prize], [day],
+   [time], [no]) is the storyboard's own placeholder text for facts that are
+   still open — see EVENT.md. It stays visibly bracketed until it is real. */
 const DEFAULT_DECK = {
-  settings: { duration: 6, fade: 480, watermark: true },
+  settings: { duration: 6, fade: 480, watermark: false },
   slides: [
-    { type:'commerceFlow', duration:10,
-      heading:'Every product image, optimized and fast. Automatically.' },
+    { type:'berlinPipeline', duration:24, passes:2,
+      heading:'Your entire file pipeline.',
+      accent:'One integration.' },
 
-    { type:'commerceBenefits', duration:11 },
+    { type:'berlinLogos', duration:5,
+      title:'Already running in production at',
+      logos:'L\u2019Or\u00e9al, SoundCloud, Zapier, Aryeo, Prezly, Sequoia' },
 
-    { type:'commerceMetric', duration:6,
-      value:'2x faster page loads.',
-      line:'Faster pages, more sales.',
-      quote:'This way, we get the absolute most speed we can when loading our web pages across mobile devices.',
-      attribution:'Sam McKinney, Director of Agency Services at Zephyr',
-      by:'Zephyr' },
+    { type:'berlinOwnership', duration:6,
+      heading:'Don\u2019t let file handling\nbecome your job.',
+      accent:'your job.' },
 
-    { type:'commerceEditor', duration:13,
-      heading:'Turn any photo\ninto a catalog-ready product shot.' },
+    // closer, version B — built on the previous animation
+    { type:'berlinOutro', duration:8, layout:'outro',
+      title:'File infrastructure\nfor the enterprise.',
+      sub:'Enter the raffle\nWin [prize]. Drawn [day] at [time].',
+      meta:'Since 2011  \u00b7  Stand [no]',
+      qr:true },
 
-    { type:'commerceLogos', duration:5,
-      title:'Trusted by',
-      logos:'L\u2019Or\u00e9al, Crayola, Samsonite, GemPages, Shogun, Marko' },
-
-    { type:'commerceInfrastructure', duration:8,
-      heading:'The infrastructure\nbehind every product image.',
-      sub:'One integration. Upload, optimize, and deliver every image, and every other file.',
-      steps:'Upload, Optimize, Deliver' },
-
-    { type:'commerceOutro', duration:10, layout:'outro',
-      title:'Load faster,\nsell more.',
-      sub:'Come say hi \ud83d\udc4b\nand enter to win LEGO Polaroid Camera Building Set',
-      qr:true, qrConfirmed:false, qrLabel:'QR URL to confirm', booth:'' }
+    // closer, version A — the storyboard's split layout, kept to compare
+    { type:'berlinIdentity', duration:8,
+      tagline:'File infrastructure for the enterprise.',
+      meta:'Since 2011  \u00b7  Stand [no]',
+      raffleTitle:'Enter the raffle',
+      raffleLine:'Win [prize]. Drawn [day] at [time].',
+      scan:'Scan to\nenter',
+      qrConfirmed:true }
   ]
 };
 
@@ -2526,6 +2717,42 @@ const ECOM_BENEFITS = [
   { benefit:'Any\nstore',             feature:'Works with\nany platform',       icon:'benefit-store',      ac:'#5978FF' },
 ];
 
+/* Berlin card 1: the six pipeline steps, each with the proof line under it.
+   Copy is the storyboard's. The line breaks are written in rather than left
+   to wrapping, and "5 TB" is held together with a no-break space. The icons
+   are drawn here from the storyboard thumbnail, in currentColor so the
+   highlight can turn one yellow; if design exports the real set, swap the
+   markup and keep the stroke on currentColor. */
+const BERLIN_STEPS = [
+  { step:'Upload',    proof:'Any source,\nfiles up to 5\u00a0TB',
+    icon:svgIcon('<path d="M12 15V4"/><path d="M7 9l5-5 5 5"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/>') },
+  { step:'Scan',      proof:'Malware checked\non arrival',
+    icon:svgIcon('<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 14.5l2 2 4-4"/>') },
+  { step:'Store',     proof:'Ours or your own',
+    icon:svgIcon('<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.66 3.13 3 7 3s7-1.34 7-3V6"/><path d="M5 12v6c0 1.66 3.13 3 7 3s7-1.34 7-3v-6"/>') },
+  { step:'Transform', proof:'Resize, crop,\nconvert, optimize',
+    icon:svgIcon('<path d="M4 8h15"/><path d="M15 4l4 4-4 4"/><path d="M20 16H5"/><path d="M9 12l-4 4 4 4"/>') },
+  { step:'Secure',    proof:'Signed URLs,\naccess logs',
+    icon:svgIcon('<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>') },
+  { step:'Deliver',   proof:'Global CDN,\n99.9% SLA',
+    icon:svgIcon('<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9s1.3-6.3 3.8-9z"/>') },
+];
+/* Seconds each pass waits before lighting the first step. On the first pass
+   that is the row's entrance; on the second it is a breath with nothing lit,
+   which is what marks one walk of the row ending and the next beginning. */
+const BP_LEAD = 1.2;
+/* How the pipeline highlight travels between two steps: the deck's spring,
+   quick to arrive and with a few pixels of overshoot, because a frame that
+   stops dead on its mark reads as a redraw and one that carries slightly past
+   reads as an object with weight. Measured on the 296px hop: it peaks 6.6px
+   past the mark (2.2%) and is back on it well inside the 1.8s step. At
+   bounce .14 the overshoot was 0.4px, which is to say none. */
+const BP_GLIDE = { response:.5, bounce:.26 };
+/* Berlin card 2: the centre of each of the six slots, reading order. The
+   columns and both row centres are the Expo wall's; each mark is drawn at its
+   own export size (LOGO_BOX) centred on its slot. */
+const BERLIN_WALL = [[510,455],[960,455],[1410,455],[510,620],[960,620],[1410,620]];
+
 /* The exact "Brand sage backdrop" preset used to generate Card 4's committed
    result in the production AI catalog-admin demo. Keep copy and EVENT.md together:
    changing this text without regenerating editor-after.jpg makes the demo
@@ -2646,6 +2873,88 @@ const PD_DONUT = (()=>{
 })();
 
 const R = {
+  /* ---- Berlin card 1: six steps, each with a proof line; the highlight
+     walks the row (setupBerlinPipeline) ---- */
+  berlinPipeline(s){
+    const cards = BERLIN_STEPS.map((f,i)=>`
+      <div class="bp-card" style="--i:${i}">
+        <div class="bp-copy">
+          <div class="bp-step">${esc(f.step)}</div>
+          <div class="bp-proof">${esc(f.proof)}</div>
+        </div>
+        <div class="bp-icon">${f.icon}</div>
+      </div>`).join('');
+    return `<div class="bp-wrap">
+      <div class="bp-head">
+        <div class="bp-line"><span>${esc(s.heading||'')}</span></div>
+        <div class="bp-line bp-accent"><span>${esc(s.accent||'')}</span></div>
+      </div>
+      <div class="bp-logo reveal d1">${LOGO}</div>
+      <div class="bp-row">${cards}<div class="bp-hl"></div></div>
+    </div>`;
+  },
+  /* ---- Berlin card 2: six customers, two rows of three, no cells ---- */
+  berlinLogos(s){
+    const names = (s.logos||'').split(',').map(n=>n.trim()).filter(Boolean);
+    const marks = names.map((n,i)=>{
+      const slot = BERLIN_WALL[i];
+      if (!slot) return '';                        // six slots, no more
+      const key = logoKey(n), svg = LOGOS[key];
+      const [w,h] = svg ? (LOGO_BOX[key] || [180,32]) : [360,40];
+      return `<div class="bl-logo" style="--i:${i};left:${slot[0]-w/2}px;top:${slot[1]-h/2}px;`
+        + `width:${w}px;height:${h}px">${svg || `<span class="bl-word">${esc(n)}</span>`}</div>`;
+    }).join('');
+    return `<div class="bl-wrap">
+      <div class="bl-title reveal">${esc(s.title||'')}</div>
+      ${marks}
+    </div>`;
+  },
+  /* ---- Berlin card 3: one line, its last phrase in yellow ----
+     `accent` is matched against the heading with its line breaks read as
+     spaces, so the phrase may be written without knowing where the break
+     falls. Every word is its own span because the words arrive one by one. */
+  berlinOwnership(s){
+    const text = s.heading||'';
+    const a = s.accent ? text.replace(/\n/g,' ').lastIndexOf(s.accent) : -1;
+    const b = a<0 ? -1 : a + s.accent.length;
+    let pos = 0, i = 0;
+    const lines = text.split('\n').map(line=>`<div class="bo-line">${
+      line.split(' ').map(w=>{
+        const at = pos; pos += w.length + 1;
+        if (!w) return '';
+        return `<span class="bo-w${at>=a && at<b ? ' acc' : ''}" style="--i:${i++}">${esc(w)}</span>`;
+      }).join(' ')}</div>`).join('');
+    return `<div class="bo-wrap"><div class="bo-head">${lines}</div></div>`;
+  },
+  /* ---- Berlin closer, version B: the previous decks' outro ----
+     The whole Webflow/Expo composition and its renderer — globe, four corner
+     files typing their telemetry, lockup, headline, sparkling glyph, sign-off
+     and the QR in its original white-on-dark form — carrying Berlin's copy.
+     `meta` is the one addition: the small mono line under the code. */
+  berlinOutro(s){
+    return R.board({...s,layout:'outro',globe:true,float:true,qr:s.qr!==false});
+  },
+  /* ---- Berlin closer, version A: identity, and the raffle on the right half ----
+     The storyboard's split layout. `qrConfirmed` decides whether the code is
+     drawn: it is on, because the booth uses the same code as the previous
+     decks (assets/qr/booth-qr.png). Turn it off and the plate reads "QR to
+     come" instead of showing a code that goes somewhere unintended. */
+  berlinIdentity(s){
+    const qr = s.qrConfirmed
+      ? `<div class="bi-qr reveal d4">${QR}</div>`
+      : `<div class="bi-qr bi-qr-tbc reveal d4"><span>QR<br>to come</span></div>`;
+    return `<div class="bi-wrap">
+      <div class="bi-lockup reveal d1">${LOGO}</div>
+      <div class="bi-tag reveal d2">${esc(s.tagline||'')}</div>
+      <div class="bi-meta reveal d3">${esc(s.meta||'')}</div>
+      <div class="bi-raffle">
+        <div class="bi-rt reveal d2">${esc(s.raffleTitle||'')}</div>
+        <div class="bi-rs reveal d3">${esc(s.raffleLine||'')}</div>
+        ${qr}
+        <div class="bi-scan reveal d5">${multiline(s.scan||'')}</div>
+      </div>
+    </div>`;
+  },
   /* ---- Ecommerce Expo card 1: complete upload + optimization phase ---- */
   commerceFlow(s){
     const image = ECOMMERCE.card1Product;
@@ -3388,7 +3697,8 @@ const R = {
          </div>
          <div class="hb-mark reveal d4">${GLYPH}</div>
          ${s.sub?`<div class="hb-outro-sub reveal d5">${emojiHTML(s.sub,'hb-wave')}</div>`:''}
-         ${s.qr?`<div class="hb-outro-qr reveal d5">${QR}</div>`:''}`
+         ${s.qr?`<div class="hb-outro-qr reveal d5">${QR}</div>`:''}
+         ${s.meta?`<div class="hb-outro-meta reveal d5">${esc(s.meta)}</div>`:''}`
       : `<div class="hb-logo">${LOGO}</div>
          <div class="hb-title">${multiline(title)}</div>`;
     /* [class, x, y, size] — the storyboard scatters five, two sizes */
@@ -3903,6 +4213,78 @@ function setupBoard(slideEl, sd, tl){
       metaEl.innerHTML = '';
       const speed = Math.max(4, sd.typeSpeed||16);
       tl.at(spec.startAt/1000, ()=>typeMeta(metaEl, spec, speed, tl));
+    }
+  });
+}
+
+/* ---------------- Berlin card 1: the highlight walks the row ----------------
+   One frame (.bp-hl) travels the six steps in pipeline order, and the whole
+   walk repeats `passes` times. A pass is duration/passes seconds: BP_LEAD of
+   nothing lit, then the rest split evenly between the steps — 1.8s each on
+   the 24s default, long enough to read a title and its proof line from across
+   a stand.
+
+   Within a pass the frame springs from one panel to the next. Between passes
+   it does not travel back across the row, which would read as rewinding: it
+   fades out on Deliver and comes up again on Upload.
+
+   Four things here are load bearing:
+
+   - Positions are the panels' offsetLeft. #stage is CSS-scaled, so a rect
+     would be in screen pixels and put the frame in the wrong place on any
+     display that is not exactly 1920 wide.
+   - Each hop is started by its own cue, not pre-scheduled with a delay. A
+     WAAPI animation waiting out a delay fills backwards, so the last hop
+     created would pin the frame to *its* start from t=0 and every earlier hop
+     would run underneath it, invisibly.
+   - Only one hop animation is ever alive. Each fills forwards so the frame
+     stays where it landed; the previous one is cancelled once the next has
+     started, which is what stops a dozen finished animations stacking up on
+     one element over a pass.
+   - The opacity tweens pass fill:'forwards' for the same reason as the hops —
+     the second pass's fade-in would otherwise hold the frame at opacity 0
+     through the whole first pass.
+
+   The panel's copy turns yellow 160ms into the hop, when the frame is over
+   it, rather than on the beat the frame sets off. The final step is left lit:
+   its "off" would fall on the millisecond the deck leaves the card, and the
+   reset below clears it on the next visit while the row is still invisible.
+
+   Reduced motion schedules nothing: the row stands unlit. A highlight that
+   cannot move would only single out whichever step it stopped on. */
+function setupBerlinPipeline(slideEl, sd, tl){
+  const cards = [...slideEl.querySelectorAll('.bp-card')];
+  const hl = slideEl.querySelector('.bp-hl');
+  cards.forEach(c=>c.classList.remove('lit'));
+  if (REDUCED || !cards.length || !hl) return;
+  const passes = Math.max(1, Math.round(+sd.passes||1));
+  const pass = (+sd.duration || deck.settings.duration || 8)/passes;
+  const step = Math.max(0, pass - BP_LEAD)/cards.length;
+  const at = i => ({ x:cards[i].offsetLeft, y:0 });
+  let hop = null;
+  for (let p=0; p<passes; p++) cards.forEach((c,i)=>{
+    const on = p*pass + BP_LEAD + i*step, last = i===cards.length-1;
+    if (i===0){
+      // a new pass: put the frame on the first step, then bring it up
+      tl.at(on, ()=>{
+        if (hop){ hop.cancel(); hop = null; }
+        hl.style.transform = `translate(${at(0).x}px,0)`;
+      });
+      tl.to(hl, [{opacity:0, scale:.97},{opacity:1, scale:1}],
+        {dur:.3, at:on, fill:'forwards'});
+      tl.cls(c, 'lit', on+.06);
+    } else {
+      tl.at(on, ()=>{
+        const next = springTo(hl, at(i-1), at(i), {...BP_GLIDE, fill:'forwards'});
+        if (hop) hop.cancel();
+        tl.anim(hop = next);
+      });
+      tl.cls(cards[i-1], 'lit', on, false);
+      tl.cls(c, 'lit', on+.16);
+    }
+    if (last && p<passes-1){
+      tl.to(hl, [{opacity:1},{opacity:0}], {dur:.36, at:on+step, ease:'ease', fill:'forwards'});
+      tl.cls(c, 'lit', on+step, false);
     }
   });
 }
@@ -5448,7 +5830,11 @@ function enter(i){
 
   // the board card runs its own globe and dots; the ambient blips would only
   // duplicate that vocabulary, so the substrate steps aside there
-  stageEl.classList.toggle('sb-off', sd.type==='board' || sd.type==='commerceOutro');
+  // The Berlin cards are left-aligned, and the substrate's left column of
+  // blips lands on the first letters of every headline they have.
+  // (berlinOutro is a board card too, and is covered by the same prefix.)
+  stageEl.classList.toggle('sb-off', sd.type==='board' || sd.type==='commerceOutro'
+    || sd.type.startsWith('berlin'));
 
   // fit oversized headlines (measure counters at their final value)
   cur.querySelectorAll('.count').forEach(el=>{
@@ -5463,7 +5849,7 @@ function enter(i){
   cur.querySelectorAll('canvas.lg-canvas').forEach(startMosaic);
   cur.querySelectorAll('canvas.rv-canvas').forEach(c=>startPixelReveal(c, cur.querySelector('.rv-photo')));
   if (sd.type==='logoAnim') animateLogo(cur);
-  if (sd.type==='board' || sd.type==='commerceOutro') setupBoard(cur, sd, tl);
+  if (sd.type==='board' || sd.type==='commerceOutro' || sd.type==='berlinOutro') setupBoard(cur, sd, tl);
   if (sd.type==='code') setupCode(cur, sd, tl);
   if (sd.type==='upload') setupUpload(cur, sd);
   if (sd.type==='install') setupInstall(cur, sd, tl);
@@ -5472,6 +5858,7 @@ function enter(i){
   if (sd.type==='commerceFlow') setupCommerceFlow(cur, sd, tl);
   if (sd.type==='commerceEditor') setupCommerceEditor(cur, sd, tl);
   if (sd.type==='commerceInfrastructure') setupCommerceInfrastructure(cur, sd, tl);
+  if (sd.type==='berlinPipeline') setupBerlinPipeline(cur, sd, tl);
   tl.play();
 
   // timing
@@ -5504,7 +5891,10 @@ const TYPE_LABEL = {statement:'Statement', number:'Number', chart:'Chart', stats
   commerceFlow:'Expo · Product flow', commerceBenefits:'Expo · Benefits',
   commerceMetric:'Expo · Proof point', commerceEditor:'Expo · AI catalog admin',
   commerceLogos:'Expo · Logo wall', commerceInfrastructure:'Expo · Infrastructure',
-  commerceOutro:'Expo · Booth CTA'};
+  commerceOutro:'Expo · Booth CTA',
+  berlinPipeline:'Berlin · Pipeline', berlinLogos:'Berlin · Logo wall',
+  berlinOwnership:'Berlin · Ownership line', berlinOutro:'Berlin · Closer B (globe outro)',
+  berlinIdentity:'Berlin · Closer A (split)'};
 const VARIANT_LABEL = {
   'assemble':'Pixel assembly — lockup',
   'rise':'Cinematic rise — lockup',
@@ -5515,6 +5905,11 @@ const VARIANT_LABEL = {
 };
 function slideTitle(s){
   switch(s.type){
+    case 'berlinPipeline': return [s.heading,s.accent].filter(Boolean).join(' ');
+    case 'berlinLogos': return (s.logos||'').replace(/\n/g,' ');
+    case 'berlinOwnership': return (s.heading||'').replace(/\n/g,' ');
+    case 'berlinOutro': return (s.title||'').replace(/\n/g,' ');
+    case 'berlinIdentity': return [s.tagline,s.raffleTitle].filter(Boolean).join(' · ');
     case 'commerceFlow': return (s.heading||'').replace(/\n/g,' ');
     case 'commerceBenefits': return ECOM_BENEFITS.map(f=>f.benefit).join(' · ');
     case 'commerceMetric': return s.value||'';
@@ -5562,7 +5957,35 @@ function fieldsFor(s, i){
     <label class="f"><span>Duration (s)</span><input type="number" min="2" step="1" data-f="duration" value="${s.duration||deck.settings.duration}"></label>
     <label class="f"><span>Type</span><input type="text" value="${TYPE_LABEL[s.type]}" disabled></label>
   </div>` + textFxFieldHTML(s);
+  const note = t=>`<p style="font-size:12px;color:#7a7a82;margin-top:10px;line-height:1.5">${t}</p>`;
   switch(s.type){
+    case 'berlinPipeline': return dur+`
+      <label class="f"><span>Headline</span><input type="text" data-f="heading" value="${esc(s.heading||'')}"></label>
+      <label class="f"><span>Second line (yellow)</span><input type="text" data-f="accent" value="${esc(s.accent||'')}"></label>
+      <label class="f"><span>Highlight passes</span><input type="number" min="1" max="4" step="1" data-f="passes" value="${s.passes||1}"></label>`
+      + note('The highlight walks the six steps once per pass, and the passes share the duration evenly: 24s over 2 passes is 12s a pass, 1.8s a step. The steps and their proof lines live in BERLIN_STEPS.');
+    case 'berlinLogos': return dur+`
+      <label class="f"><span>Title</span><input type="text" data-f="title" value="${esc(s.title||'')}"></label>
+      <label class="f"><span>Logo names (comma-separated, six)</span><textarea data-f="logos">${esc(s.logos||'')}</textarea></label>`
+      + note('Two rows of three standing free on the stage, filled in reading order; names beyond the sixth are ignored. A name with a vector in assets/logos is drawn as its mark; any other name is set as a word.');
+    case 'berlinOwnership': return dur+`
+      <label class="f"><span>Line (line breaks allowed)</span><textarea data-f="heading">${esc(s.heading||'')}</textarea></label>
+      <label class="f"><span>Phrase in yellow</span><input type="text" data-f="accent" value="${esc(s.accent||'')}"></label>`
+      + note('The words arrive in reading order, so a yellow phrase at the end of the line lands last.');
+    case 'berlinOutro': return dur+`
+      <label class="f"><span>Headline (line breaks allowed)</span><textarea data-f="title">${esc(s.title||'')}</textarea></label>
+      <label class="f"><span>Sign-off (line breaks allowed)</span><textarea data-f="sub">${esc(s.sub||'')}</textarea></label>
+      <label class="f"><span>Small mono line under the code</span><input type="text" data-f="meta" value="${esc(s.meta||'')}"></label>
+      <label class="chk"><input type="checkbox" data-f="qr" ${s.qr!==false?'checked':''}> Show the QR</label>`
+      + note('The previous decks\u2019 outro \u2014 globe, corner files, sparkling glyph \u2014 with Berlin\u2019s copy. The code is assets/qr/booth-qr.png; the build prints where it points.');
+    case 'berlinIdentity': return dur+`
+      <label class="f"><span>Line under the logo</span><input type="text" data-f="tagline" value="${esc(s.tagline||'')}"></label>
+      <label class="f"><span>Small mono line</span><input type="text" data-f="meta" value="${esc(s.meta||'')}"></label>
+      <label class="f"><span>Raffle title</span><input type="text" data-f="raffleTitle" value="${esc(s.raffleTitle||'')}"></label>
+      <label class="f"><span>Raffle line</span><input type="text" data-f="raffleLine" value="${esc(s.raffleLine||'')}"></label>
+      <label class="f"><span>Label beside the code (line breaks allowed)</span><textarea data-f="scan">${esc(s.scan||'')}</textarea></label>
+      <label class="chk"><input type="checkbox" data-f="qrConfirmed" ${s.qrConfirmed?'checked':''}> Draw the QR</label>`
+      + note('Unticked, the plate reads \u201cQR to come\u201d. The code itself is assets/qr/booth-qr.png; the build prints where it points.');
     case 'commerceFlow': return dur+`
       <label class="f"><span>Headline</span><textarea data-f="heading">${esc(s.heading||'')}</textarea></label>
       <p style="font-size:12px;color:#7a7a82;margin-top:10px;line-height:1.5">Three fast beats: upload, visibly reduce file weight, then land on a crisp product page. The product image currently reuses the flower asset from the uploader demo.</p>`;
@@ -5830,6 +6253,11 @@ gLogo.onchange = ()=>{ deck.settings.watermark=gLogo.checked; enter(idx); };
 
 /* add menu */
 const NEW = {
+  berlinPipeline:{type:'berlinPipeline',duration:24,passes:2,heading:'Your entire file pipeline.',accent:'One integration.'},
+  berlinLogos:{type:'berlinLogos',duration:5,title:'Already running in production at',logos:'L\u2019Or\u00e9al, SoundCloud, Zapier, Aryeo, Prezly, Sequoia'},
+  berlinOwnership:{type:'berlinOwnership',duration:6,heading:'Don\u2019t let file handling\nbecome your job.',accent:'your job.'},
+  berlinOutro:{type:'berlinOutro',duration:8,layout:'outro',title:'File infrastructure\nfor the enterprise.',sub:'Enter the raffle\nWin [prize]. Drawn [day] at [time].',meta:'Since 2011  \u00b7  Stand [no]',qr:true},
+  berlinIdentity:{type:'berlinIdentity',duration:8,tagline:'File infrastructure for the enterprise.',meta:'Since 2011  \u00b7  Stand [no]',raffleTitle:'Enter the raffle',raffleLine:'Win [prize]. Drawn [day] at [time].',scan:'Scan to\nenter',qrConfirmed:true},
   commerceFlow:{type:'commerceFlow',duration:10,heading:'Every product image, optimized and fast. Automatically.'},
   commerceBenefits:{type:'commerceBenefits',duration:11},
   commerceMetric:{type:'commerceMetric',duration:6,value:'2x faster page loads.',line:'Faster pages, more sales.',quote:'This way, we get the absolute most speed we can when loading our web pages across mobile devices.',attribution:'Sam McKinney, Director of Agency Services at Zephyr',by:'Zephyr'},

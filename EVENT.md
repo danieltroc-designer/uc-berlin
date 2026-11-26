@@ -1,75 +1,78 @@
-# Ecommerce Expo — event notes
+# Berlin — event notes
 
 Working source of truth for this booth cut. Do not invent event facts.
 
 ## Confirmed
 
-- Event name: **Ecommerce Expo**
-- Seven-card loop, approximately 63 seconds:
-  1. Product image upload → optimization → live store payoff (10s)
-  2. Five ecommerce benefits, two one-second highlight passes (11s)
-  3. Zephyr proof point (6s)
-  4. Marketplace backend → Edit with AI → catalog variant → Add to media → storefront (13s)
-  5. Customer logo wall (5s)
-  6. Upload → Optimize → Deliver infrastructure view (8s)
-  7. Booth CTA / file-board outro (10s)
-- Card 4 records the production `ai-catalog-admin` demo: the Ashfold product
-  backend opens, the pointer crosses its catalogue image so “Edit with AI”
-  appears under it, and the click hands over to the editor. The backend is
-  rebuilt as live DOM from the reference captures in `assets/ecommerce/`, so it
-  stays sharp on the booth panel and the page never zooms. Its real source UUID is
-  `01362b9d-462f-4db4-8c8a-acd0b4c2a06a`; the “Brand sage backdrop” preset
-  generated result UUID `3d5bbd80-9f76-46d0-b7ff-263dbb1ec4fe` with:
-  “Replace the background with a flat sage green studio backdrop, keep the
-  bottle and its natural shadow”. The committed 1536×2048 source and 880×1168
-  result are `assets/ecommerce/catalog-source.jpg` and `editor-after.jpg`. The
-  finished result holds, the same pointer clicks “Add to media,” and the card
-  ends with that result live on an Ashfold product page, reusing Card 1's
-  storefront frame. Its copy and €49.00 price come from the demo's own backend
-  record, not from invented catalogue data.
-- Logo wall: L'Oréal, Crayola, Samsonite, GemPages, Shogun, Marko.
-- Card 1's first phase follows Figma frame `234:979`: the complete uploader
-  interaction from the Webflow booth card runs in the left cell with one tube
-  photo, then the same photo resolves through the frame's simplified two-line
-  optimization readout in the right cell. Its payoff follows frame `234:1415`:
-  the completed process shell recedes into a 1252px browser where the same tube
-  photo is already live on the Velour Essentials product page. It is paced for
-  booth distance — the upload takes 1.45s and the optimization claim holds ~1.3s
-  before the storefront arrives — which is what the 10s slot buys. The SOC 2,
-  GDPR and HIPAA marks now sit beneath Card 2's benefit row rather than Card 1.
-- Card 3 follows Figma frame `234:1237`: “2x faster page loads. Faster pages,
-  more sales.” beside the Zephyr mark and “This way, we get the absolute most
-  speed we can when loading our web pages across mobile devices.” attributed
-  to Sam McKinney, Director of Agency Services at Zephyr. The two green-panel
-  claims are separate paragraphs with a 40px gap.
-- Card 6 preserves its existing choreography and uses its added two seconds
-  solely to hold the final Uploadcare lockup longer.
-- Card 7 follows Figma frame `219:1638` and otherwise retains the Webflow
-  outro unchanged: “Load faster, sell more.” over “Come say hi 👋 and enter
-  to win LEGO Polaroid Camera Building Set.” Its central pixel glyph shimmers
-  across five near-identical Uploadcare yellows, so it stays brand yellow
-  while it moves rather than drifting between cream and amber.
-
-## Assets still needed
-
-- Ecommerce product image (optional replacement for the current flower)
-- ~~Customer SVG marks~~ — all six wall logos and Zephyr are in
-- Ecommerce Expo QR artwork after its destination is confirmed
-
-See `assets/ecommerce/README.md` for exact filenames.
+- Working name: **Berlin**. The event's official name is not recorded here.
+- This folder is an isolated clone of the Ecommerce Expo booth deck
+  (`../ecommerce-expo` @ `3df8c5a`). It has no remote.
+- The loop follows the "TV loop" storyboard (a Claude artifact, supplied as a
+  screenshot on 26 Nov 2026): **43 seconds, 4 cards, 50" landscape**.
+  1. **Pipeline** (24s: 12s, twice per loop). "Your entire file pipeline. /
+     One integration." Six steps, each with a proof line, and a yellow
+     highlight that steps along the row:
+     - Upload — Any source, files up to 5 TB
+     - Scan — Malware checked on arrival
+     - Store — Ours or your own
+     - Transform — Resize, crop, convert, optimize
+     - Secure — Signed URLs, access logs
+     - Deliver — Global CDN, 99.9% SLA
+  2. **Logo wall** (5s). "Already running in production at" L'Oréal,
+     SoundCloud, Zapier, Aryeo, Prezly, Sequoia.
+  3. **Ownership** (6s). "Don't let file handling become your job."
+  4. **Identity + raffle** (8s). Uploadcare lockup, "File infrastructure for
+     the enterprise.", "Since 2011 · Stand [no]"; on the right half "Enter the
+     raffle", "Win [prize]. Drawn [day] at [time].", a QR and "Scan to enter".
+- Decisions made on the build, 26 Nov 2026:
+  - **The raffle QR is the same code the previous decks used**:
+    `assets/qr/booth-qr.png`, which decodes to `https://l.ead.me/bgyXox`.
+    Both closing cards draw it.
+  - **The logo wall has no boxes**; it follows the previous decks' wall
+    (centred title, free-standing marks).
+  - **The closing card is undecided between two versions**, both in the loop
+    for comparison: B, the previous decks' globe outro with Berlin's copy, and
+    A, the storyboard's split identity/raffle layout. The loop is 51s while
+    both are in and 43s once one is removed.
+- The storyboard's reasoning, kept because it decides the order: the stand's
+  banner states the problem and claims it, the screen proves it and hands it
+  back to the person in the room. The pipeline holds 24 of 43 seconds so a
+  glance almost always lands on the message. The ownership card is the only
+  one that speaks to the visitor directly and sits after the proof so it reads
+  as a conclusion. The raffle also lives on an A5 card on the table, which
+  does the close-range work.
 
 ## Open / TBD
 
-- Event dates, venue, and booth number
-- QR destination (likely ecommerce landing page, not yet confirmed)
-- Replace the visible inherited QR before the event; its current destination
-  remains `https://l.ead.me/bgyXox` and is not confirmed for Ecommerce Expo
-- Whether “2x faster page loads” and Zephyr attribution require legal/source
-  annotation in the final artwork
-- Final visual refinement pass and motion-skill audit
+From the storyboard's own "still open" list:
 
-## Inherited placeholders
+- Prize, draw day and time, stand number. On screen these are still the
+  storyboard's bracketed placeholders.
+- Sequoia reads as the VC: disambiguate, or swap for Zola. There is no Zola
+  mark in `assets/logos/` yet.
+- Screen orientation, portrait or landscape. The deck is built landscape.
 
-The clone still contains Webflow-specific types and assets for reuse, but the
-default deck no longer uses the Webflow marketplace card, Webflow headline, or
-previous-event QR.
+Not answered by the storyboard:
+
+- Which closing card stays, A or B.
+- Whether `https://l.ead.me/bgyXox` already lands on the Berlin raffle page.
+  The code is the previous event's by decision; where the short link points is
+  set on the link service, not here, and has not been checked for Berlin.
+- Event dates and venue.
+- Whether the proof lines need sign-off as claims: "files up to 5 TB",
+  "99.9% SLA", "Since 2011". They were read off a small screenshot; check them
+  against the full-size storyboard.
+- The storyboard's full-size `pipeline-card.png`, which this project has not
+  seen. Card 1 and its six icons were built from the thumbnail.
+
+## Assets still needed
+
+- Zola logo as SVG, if it replaces Sequoia
+- The pipeline card's real icon set, if design has one
+
+## Inherited from Ecommerce Expo
+
+The seven Ecommerce Expo cards are no longer in the loop. Their card types,
+assets and notes remain in the project for reuse: the Zephyr quote, the
+catalog-admin demo, the six-logo Expo wall, the LEGO giveaway line. None of it
+is a Berlin fact. See `../ecommerce-expo/EVENT.md` for that event's record.

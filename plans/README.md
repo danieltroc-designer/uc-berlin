@@ -1,4 +1,7 @@
-# Ecommerce Expo animation plans
+# Animation plans
+
+Inherited with the Ecommerce Expo clone. They describe that deck, which Berlin
+still plays until its own cards replace it.
 
 | # | Plan | Severity | Status |
 |---|---|---|---|

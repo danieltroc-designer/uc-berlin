@@ -1,8 +1,9 @@
-# AGENTS.md — Ecommerce Expo booth
+# AGENTS.md — Berlin booth
 
-This is the **Ecommerce Expo** cut. It was cloned from the latest Webflow booth
-deck, but is now isolated on local branch `ecommerce-expo` with no remote.
-Never edit or push to `../UC-slides/uploadcare-show` from this workspace.
+This is the **Berlin** cut. It was cloned from the Ecommerce Expo booth deck
+(`../ecommerce-expo` @ `3df8c5a`), and is isolated on local branch `berlin`
+with no remote. Never edit `../ecommerce-expo` or `../webflow-conf` from this
+workspace.
 
 Read `EVENT.md` before changing event copy or assets. Confirmed facts go there;
 never infer booth details, giveaway copy, QR destinations, or customer claims.
@@ -30,23 +31,128 @@ python build.py
 directly, your changes are lost on the next build and the source drifts out of
 sync.
 
-### Ecommerce Expo booth loop
+### Booth loop
 
-The simplified seven-card deck is the Ecommerce Expo working cut. It has its
-own source + build + output and is fully independent of the main deck:
+The working cut is the **Berlin loop: four cards, 43 seconds**, laid out from
+the "TV loop" storyboard. It has its own source + build + output and is fully
+independent of the main deck:
 
-- Source: `src/simple.template.html` (a superset copy of the main template with
-  extra card types: `dropin`, `features`, `quote2`, `logos`, `scale`,
-  `pipeline`). Card 7 is a `board` slide with `layout:'outro'`.
+- Source: `src/simple.template.html`. The Berlin card types are
+  `berlinPipeline`, `berlinLogos`, `berlinOwnership`, and two candidate
+  closers, `berlinOutro` and `berlinIdentity`; their CSS is the `Berlin` block
+  (`.bp-*`, `.bl-*`, `.bo-*`, `.bi-*`) plus the inherited outro's `.hb-*`.
 - Build: `python build_simple.py` → `dist/uploadcare-simple.html`.
 - Same rule applies: never hand-edit `dist/uploadcare-simple.html`.
-- Current default sequence is 10/11/6/13/5/8/10 seconds (63 seconds total):
- product flow, benefits, Zephyr proof point, AI Enhancer, customer logos,
- infrastructure, booth CTA. Card 2 uses its 11s for two full five-card
- highlight passes; Card 6 uses its added 2s only for the final logo hold.
-- Optional event imagery is auto-inlined from `assets/ecommerce/`; see its
-  README for exact filenames. Card 4's source and generated output are
-  required; a missing asset fails the build.
+- Default sequence is 24/5/6/8/8 seconds: pipeline, logo wall, ownership line,
+  closer B, closer A. **Both closers are in the deck on purpose** — see below.
+  That makes the loop 51s; with one closer it is the storyboard's 43.
+- Check: `python tools/check_berlin.py` asserts the order, the loop length
+  (43s, +8s while the second closer is in), each card's geometry at 1920x1080
+  and again on a scaled stage, the highlight frame's position, travel and
+  timing, that both closers draw the same QR, and the reduced-motion frames.
+
+Things about the Berlin cards that are deliberate:
+
+- **The storyboard arrived as a 1024px screenshot, not a Figma frame.**
+  Positions are its proportions scaled to the 1920 stage. Type is on the
+  deck's booth scale instead (88px headline, 104px on the ownership card):
+  scaled literally, the thumbnail's headline lands near 58px, which is too
+  small across a stand. The storyboard mentions a full-size
+  `pipeline-card.png` that never reached this project; if it does, check card
+  1 against it.
+- **The pipeline is one 24s slide, not two 12s ones.** The storyboard lists
+  it as "12s, twice per loop", back to back. Two consecutive copies would
+  crossfade the card into itself and replay its entrance, which reads as the
+  screen restarting. `passes:2` walks the highlight along the row twice
+  instead; each pass is `duration/passes`, opening with `BP_LEAD` (1.2s) of
+  nothing lit and then giving each of the six steps an equal slot (1.8s).
+- **The highlight is one frame that travels, not six rings that take turns.**
+  The first cut gave every panel its own `::before` ring and crossfaded
+  neighbours; that is correct and reads as a row of lamps. `.bp-hl` is a
+  single translucent frame above the panels that springs from step to step
+  (`BP_GLIDE`: response .5, bounce .26 — measured 6.6px past the mark on the
+  296px hop, then back), which reads as something moving through the
+  pipeline. Between passes it fades out on Deliver and comes up on Upload
+  rather than travelling back across the row, which would read as rewinding.
+  `.lit` is now only the panel's own copy and icon answering the frame's
+  arrival, 160ms into the hop. Four things in `setupBerlinPipeline()` are
+  load bearing and each is a bug if removed:
+  - positions are the panels' `offsetLeft`, never rects (see the scaling note
+    further down); the checker lands the frame at 1280x800 as well;
+  - every hop is started by its own cue rather than pre-scheduled with a
+    delay, because a delayed WAAPI animation fills backwards and the last hop
+    created would pin the frame to its own start from t=0;
+  - each hop fills forwards and cancels its predecessor once started, so one
+    hop animation is alive on the frame rather than ten;
+  - the opacity tweens pass `fill:'forwards'`, or pass 2's fade-in holds the
+    frame invisible through all of pass 1.
+  The last step is left lit — its "off" would fall on the millisecond the deck
+  leaves the card — and the score clears it synchronously on the next visit.
+  Reduced motion schedules nothing: the row stands unlit with no frame.
+- **The pipeline headline is masked, not faded.** Each line rises from behind
+  its own hard edge. The mask is the outer `.bp-line` and the cap-trimmed text
+  is the `<span>` inside it: the trim cuts the box at the baseline, so
+  clipping the trimmed box directly shears the descenders off "pipeline". The
+  mask's padding makes room for them and an equal negative margin hands it
+  back, so the 30px between the lines is unchanged (the checker asserts it).
+  The start offset is 160%, not 100%: it has to clear the padding as well.
+- **Steps, proof lines and icons live in `BERLIN_STEPS`.** The proof lines'
+  breaks are written in; the copy column is 216px and wrapping strands "5 TB".
+  The six icons are drawn in the template from the storyboard thumbnail, in
+  `currentColor` so the highlight can recolour them. They are not design
+  exports.
+- **The logo wall has no cells.** The storyboard drew six bordered boxes and
+  the first cut built them; they were removed on request, to match the Expo
+  and Webflow walls: a small centred title at 175 and six marks standing free,
+  two rows of three. `BERLIN_WALL` holds each slot's centre (columns
+  510/960/1410, rows 455/620 — the Expo wall's) and each mark is drawn at its
+  own export size (`LOGO_BOX`), centred on its slot, 75ms apart. A name
+  without a vector in `assets/logos/` is set as a word; names past the sixth
+  are ignored.
+- **The ownership line is hand-broken** so "your job." stays on one line; the
+  storyboard's own wrap strands "job." alone. Words arrive in reading order,
+  70ms apart, each clearing 8px of blur as it lands, so the yellow phrase
+  resolves last.
+- **There are two closers in the deck, back to back, to be compared.**
+  `berlinOutro` (closer B) is the previous decks' outro — `R.board` with
+  `layout:'outro'`, the globe, four corner files and their telemetry, the
+  sparkling glyph and `setupBoard()`, exactly as "Card 7, the outro" below
+  describes — carrying Berlin's copy: "File infrastructure / for the
+  enterprise.", the raffle lines as the sign-off, and the one addition, an
+  optional `.hb-outro-meta` mono line under the code for "Since 2011 · Stand".
+  Its slide must carry `layout:'outro'`, as `commerceOutro`'s does.
+  `berlinIdentity` (closer A) is the storyboard's split layout, kept
+  unchanged. The arrow keys flip between them. When one is chosen, delete the
+  other from `DEFAULT_DECK`; nothing else depends on there being two, and the
+  checker accepts either or both.
+- **The QR is the previous decks' code**, `assets/qr/booth-qr.png`, which the
+  build prints as `https://l.ead.me/bgyXox`. That was a decision, not a
+  leftover: see `EVENT.md`. Closer B draws it the way the outro always has,
+  white modules on dark at 857,711; closer A draws it black on a white plate
+  (`.bi-qr path` recolours the same modules) and its `qrConfirmed` is true.
+  Setting that false brings back the "QR to come" plate.
+- **Bracketed copy is the storyboard's own placeholder text** — `[prize]`,
+  `[day]`, `[time]`, `[no]`. It stays visibly bracketed until `EVENT.md` has
+  the real value.
+- **No ambient substrate and no corner glyph on these cards.** The left-aligned
+  ones collide with the substrate's left column of blips, and the outro runs
+  its own dots; `enter()` sets `sb-off` for any `berlin*` type.
+  `settings.watermark` is false because the pipeline and both closers carry
+  the lockup and the storyboard draws no mark on the other two.
+- **No GSAP.** It was considered for this pass and left out: every move here
+  is a transform or opacity change the deck's own `Timeline`, WAAPI and spring
+  sampler already drive, and adding it would mean inlining a runtime library
+  into a file whose rule is no dependencies. Revisit only for something those
+  cannot do — morphing one vector into another, or scrubbing a long sequence.
+
+### Inherited card types
+
+Everything from here to "Choreography" documents the Ecommerce Expo and
+Webflow cards that came with the clone. None of them is in the Berlin loop,
+but their renderers, assets and editor entries are still in the template, and
+their `tools/check_*.py` scripts expect the decks they were written for, so
+those scripts fail against the Berlin deck. Card numbers below are the
+numbers those decks used.
 
 Ecommerce Card 4 is the real `ai-catalog-admin` flow, rebuilt offline inside a
 fixed 1252x640 stage at (334,360). It opens on the product backend, moves the
@@ -692,8 +798,10 @@ Three things to keep in mind when adding a card:
 
 ### Exporting the loop as video
 
-`python tools/export_video.py` writes `dist/uploadcare-expo-4k.mp4` — one full
-63s loop at 3840x2160, 30fps. Four things about it are load bearing:
+`python tools/export_video.py` writes `dist/uploadcare-berlin-4k.mp4` — one full
+loop at 3840x2160, 30fps (43s for Berlin; it reads the durations from the
+deck). The notes below were written for the seven-card Expo loop, so their
+card numbers are that deck's. Four things about it are load bearing:
 
 - **It records a loop the deck advanced into by itself.** The first cut forced
  `pause(); enter(0); resume()` to get card 1 from the top, which restarted
@@ -701,7 +809,8 @@ Three things to keep in mind when adding a card:
  payoff an empty grey page. The tool now jumps to the *last* card as pre-roll
  and waits for the deck's own advance timer to reach card 1; every card inside
  the recorded window is entered exactly as the TV enters it. The card order is
- printed, and it should read `[6, 0, 1, 2, 3, 4, 5, 6, 0]`.
+ printed, and it should read `[6, 0, 1, 2, 3, 4, 5, 6, 0]` for seven cards —
+ `[3, 0, 1, 2, 3, 0]` for the Berlin four.
 - **The viewport is the full 3840x2160 and `deviceScaleFactor` stays 1.**
  `Page.startScreencast` captures the visual viewport in *CSS* pixels and
  ignores the device scale factor, so the obvious setup — a 1920x1080 viewport
@@ -736,10 +845,12 @@ The window is exactly one period: it opens on the outro still crossfading into
 card 1 and ends on the outro settled, so the file loops seamlessly. Starting
 it clean on card 1 instead means shifting the window past that 520ms fade.
 
-Verify with `python tools/verify_simple.py`, which screenshots all eight cards
-in both normal and reduced motion to `tools/_shots/` and fails loudly on
-console errors, and `python tools/verify_timeline.py`, which asserts a slide's
-score is fully retired on exit and replays from the top on re-entry.
+Verify with `python tools/check_berlin.py` (see "Booth loop"),
+`python tools/verify_simple.py`, which screenshots every card in both normal
+and reduced motion to `tools/_shots/` and prints console errors, and
+`python tools/verify_timeline.py`, which asserts the pipeline card's score is
+fully retired on exit and replays from the top on re-entry. All three launch a
+headless Chrome.
 
 The template contains placeholder tokens that `build.py` fills:
 `/*__COMMIT_MONO__*/`, `/*__INTER_VAR__*/`, `/*__JB_MONO__*/`, `__LOGO_SVG__`,

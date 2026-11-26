@@ -24,7 +24,7 @@ irregular by design. They are kept per frame and the encoder resamples them
 to a constant 30fps, which turns a still hold into held frames rather than
 into drift.
 
-    python tools/export_video.py                       # dist/uploadcare-expo-4k.mp4
+    python tools/export_video.py                       # dist/uploadcare-berlin-4k.mp4
     python tools/export_video.py --hide-progress       # drop the progress hairline
     python tools/export_video.py --fps 60 --keep-frames
 
@@ -150,8 +150,8 @@ def capture(scale, fmt, quality, hide_progress):
 
         # Jump to the last card first so the pre-roll is one slide, not a
         # whole loop. It is the only card entered out of band and it sits
-        # outside the recorded window; the card 7 in the video is the one the
-        # deck reaches on its own at the end.
+        # outside the recorded window; the last card in the video is the one
+        # the deck reaches on its own at the end.
         pg.evaluate(f"enter({count - 1})")
         opts = {"format": fmt, "maxWidth": width, "maxHeight": height,
                 "everyNthFrame": 1}
@@ -261,7 +261,7 @@ def main():
     ap.add_argument("--mbps", type=int, default=60, help="H.264 target bitrate")
     ap.add_argument("--hide-progress", action="store_true")
     ap.add_argument("--keep-frames", action="store_true")
-    ap.add_argument("--out", default=str(ROOT / "dist" / "uploadcare-expo-4k.mp4"))
+    ap.add_argument("--out", default=str(ROOT / "dist" / "uploadcare-berlin-4k.mp4"))
     a = ap.parse_args()
 
     if not DIST.exists():

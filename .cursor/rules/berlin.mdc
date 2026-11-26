@@ -1,0 +1,31 @@
+---
+description: Berlin booth deck — event isolation and working rules
+alwaysApply: true
+---
+
+# Berlin booth
+
+This workspace is the **Berlin** cut of the Uploadcare TV booth deck.
+It was cloned from the Ecommerce Expo deck at `../ecommerce-expo`.
+
+## Isolation
+
+- Do **not** edit `../ecommerce-expo` or `../webflow-conf` from this chat.
+- Do **not** push anywhere. This clone has no `origin` until a dedicated
+  Berlin remote is added.
+- The default deck is the four-card Berlin loop. The Ecommerce Expo and
+  Webflow card types are still in the template but are not in the loop; do
+  not reuse their copy, QR, or customer claims as Berlin facts.
+
+## Build rules (unchanged)
+
+- Edit `src/*.template.html` and `assets/`. Never hand-edit `dist/`.
+- Rebuild with `python build.py` / `python build_simple.py` after source changes.
+- Work in the booth loop (`src/simple.template.html`) unless asked for the
+  full deck. Run `python tools/check_berlin.py` after changing a Berlin card.
+
+## Event context
+
+Read `EVENT.md` for confirmed vs TBD notes. When the user adds Berlin copy,
+storyboard, QR, or giveaway details, update `EVENT.md` and the deck — do not
+invent event facts.

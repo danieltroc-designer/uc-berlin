@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Build the *simplified* Uploadcare TV show (the 7-card booth loop).
+Build the Uploadcare booth loop (Berlin: four cards, 43 seconds).
 
 Standalone from build.py so the main deck is never touched: this reads
 src/simple.template.html, inlines the same assets (reusing build.py's

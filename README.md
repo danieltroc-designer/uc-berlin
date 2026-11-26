@@ -1,16 +1,19 @@
-# Uploadcare — Ecommerce Expo booth
+# Uploadcare — Berlin booth
 
-This workspace is the isolated **Ecommerce Expo** cut, based on the latest
-Uploadcare Webflow booth deck. The working presentation is the seven-card loop:
+This workspace is the isolated **Berlin** cut. It was cloned from the Ecommerce
+Expo booth deck, which itself came from the Webflow booth. The working
+presentation is a four-card, 43-second TV loop: pipeline, logo wall,
+ownership line, identity + raffle.
 
 ```bash
 python build_simple.py
 # open dist/uploadcare-simple.html
+python tools/check_berlin.py   # order, timing and geometry
 ```
 
 Event copy, confirmed details, missing assets, and open questions live in
-`EVENT.md`. The prior Webflow project remains in `../UC-slides/uploadcare-show`
-and must not be edited from here.
+`EVENT.md`. Do not edit the source projects from here: `../ecommerce-expo`
+and `../webflow-conf`.
 
 ## Original project architecture
 

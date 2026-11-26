@@ -1,4 +1,4 @@
-"""Screenshot every card of the simplified booth deck, normal + reduced motion.
+"""Screenshot every card of the Berlin booth loop, normal + reduced motion.
 
 No test suite here, so this is the check: load dist/uploadcare-simple.html in a
 headless browser, jump to each card, and capture it at the moments its
@@ -17,19 +17,13 @@ PROFILE = ROOT / "tools" / "_profile"
 
 # card index -> ms after enter() worth capturing
 SHOTS = {
-    # card 1 runs a 10s slot: drag, drop, handover, the 1.45s upload, the
-    # optimization readout and its hold, then the storefront
-    0: [700, 1600, 2600, 3600, 4900, 6100, 7400, 8600],
-    # card 2: one second per panel, twice; sample each highlight
-    1: [1400, 2400, 3400, 4400, 5400, 6400, 7400, 8400, 9400, 10400],
-    2: [250, 700, 1400, 2200],         # headline, then Zephyr mark
-    3: [400, 1500, 1800, 2350, 2900, 4000, 5200, 5800, 7400, 8200, 8800, 9500, 10500, 12500],
-                                 # backend → hover → click → editor → prompt → shimmer
-                                 # → result → Add to media pointer/click → storefront
-    4: [250, 650, 1100],               # six-logo sweep
-    5: [700, 1800, 2900, 3800, 5400, 7400],
-                                            # upload → optimize → deliver → logo hold
-    6: [400, 1400, 3000],              # booth CTA
+    # pipeline: the entrance, then the middle of a few 1.8s highlight slots in
+    # each of the two passes, a hop in flight (3100) and the unlit lead
+    0: [300, 700, 2100, 3100, 5700, 11100, 12600, 14100, 23100],
+    1: [250, 650, 1500],               # title, then the six marks in reading order
+    2: [250, 600, 1500],               # the line arriving word by word
+    3: [400, 1200, 3000, 6000],        # closer B: the outro building, then typed out
+    4: [300, 800, 1600],               # closer A: identity, then the raffle panel
 }
 
 # the bundled driver resolves an x64 path on this machine; use the arm64 build
