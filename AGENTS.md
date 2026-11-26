@@ -45,19 +45,19 @@ The working cut is the **Berlin loop: four cards, 43 seconds**, laid out from
 the "TV loop" storyboard. It has its own source + build + output and is fully
 independent of the main deck:
 
-- Source: `src/simple.template.html`. The Berlin card types are
-  `berlinPipeline`, `berlinLogos`, `berlinOwnership`, and two candidate
-  closers, `berlinOutro` and `berlinIdentity`; their CSS is the `Berlin` block
-  (`.bp-*`, `.bl-*`, `.bo-*`, `.bi-*`) plus the inherited outro's `.hb-*`.
+- Source: `src/simple.template.html`. The loop's card types are
+  `berlinPipeline`, `berlinLogos`, `berlinOwnership` and `berlinOutro`; their
+  CSS is the `Berlin` block (`.bp-*`, `.bl-*`, `.bo-*`) plus the inherited
+  outro's `.hb-*`. `berlinIdentity` (`.bi-*`) is the storyboard's split
+  closer, which lost to the outro and is no longer in the loop.
 - Build: `python build_simple.py` → `dist/uploadcare-simple.html`.
 - Same rule applies: never hand-edit `dist/uploadcare-simple.html`.
-- Default sequence is 24/5/6/8/8 seconds: pipeline, logo wall, ownership line,
-  closer B, closer A. **Both closers are in the deck on purpose** — see below.
-  That makes the loop 51s; with one closer it is the storyboard's 43.
-- Check: `python tools/check_berlin.py` asserts the order, the loop length
-  (43s, +8s while the second closer is in), each card's geometry at 1920x1080
-  and again on a scaled stage, the highlight frame's position, travel and
-  timing, that both closers draw the same QR, and the reduced-motion frames.
+- Default sequence is 24/5/6/8 seconds: pipeline, logo wall, ownership line,
+  raffle outro.
+- Check: `python tools/check_berlin.py` asserts the order, the 43s loop, each
+  card's geometry at 1920x1080 and again on a scaled stage, the highlight
+  frame's position, travel and timing, the outro's geometry, QR and raffle
+  wording, and the reduced-motion frames.
 
 Things about the Berlin cards that are deliberate:
 
@@ -121,31 +121,30 @@ Things about the Berlin cards that are deliberate:
   storyboard's own wrap strands "job." alone. Words arrive in reading order,
   70ms apart, each clearing 8px of blur as it lands, so the yellow phrase
   resolves last.
-- **There are two closers in the deck, back to back, to be compared.**
-  `berlinOutro` (closer B) is the previous decks' outro — `R.board` with
-  `layout:'outro'`, the globe, four corner files and their telemetry, the
-  sparkling glyph and `setupBoard()`, exactly as "Card 7, the outro" below
-  describes — carrying Berlin's copy: "File infrastructure / for the
-  enterprise.", the raffle lines as the sign-off, and the one addition, an
-  optional `.hb-outro-meta` mono line under the code for "Since 2011 · Stand".
-  Its slide must carry `layout:'outro'`, as `commerceOutro`'s does.
-  `berlinIdentity` (closer A) is the storyboard's split layout, kept
-  unchanged. The arrow keys flip between them. When one is chosen, delete the
-  other from `DEFAULT_DECK`; nothing else depends on there being two, and the
-  checker accepts either or both.
+- **The closer is the previous decks' outro, not the storyboard's split
+  card.** Both were built and run back to back; the outro was chosen.
+  `berlinOutro` is `R.board` with `layout:'outro'` — the globe, four corner
+  files and their telemetry, the sparkling glyph and `setupBoard()`, exactly
+  as "Card 7, the outro" below describes — carrying Berlin's copy. Its slide
+  must carry `layout:'outro'`, as `commerceOutro`'s does. It briefly had a
+  mono "Since 2011 · Stand [no]" line under the code; that was removed on
+  request, so nothing sits below the QR. `berlinIdentity`, the split layout,
+  is still a card type in the template and the add-slide menu; the checker
+  covers it only if it is put back in the deck.
+- **The raffle sign-off is two lines, hand-broken.** The confirmed copy is
+  three sentences. One per line would put the third line into the code at
+  711, so the call and the prize share line one and the draw takes line two:
+  the wide line is 802px, inside the centre column and clear of the corner
+  files. The checker asserts the wording against `EVENT.md`'s and that no
+  bracketed placeholder is left on the card.
 - **The QR is the previous decks' code**, `assets/qr/booth-qr.png`, which the
   build prints as `https://l.ead.me/bgyXox`. That was a decision, not a
-  leftover: see `EVENT.md`. Closer B draws it the way the outro always has,
-  white modules on dark at 857,711; closer A draws it black on a white plate
-  (`.bi-qr path` recolours the same modules) and its `qrConfirmed` is true.
-  Setting that false brings back the "QR to come" plate.
-- **Bracketed copy is the storyboard's own placeholder text** — `[prize]`,
-  `[day]`, `[time]`, `[no]`. It stays visibly bracketed until `EVENT.md` has
-  the real value.
+  leftover: see `EVENT.md`. It is drawn the way the outro always has, white
+  modules on dark at 857,711.
 - **No ambient substrate and no corner glyph on these cards.** The left-aligned
   ones collide with the substrate's left column of blips, and the outro runs
   its own dots; `enter()` sets `sb-off` for any `berlin*` type.
-  `settings.watermark` is false because the pipeline and both closers carry
+  `settings.watermark` is false because the pipeline and the outro carry
   the lockup and the storyboard draws no mark on the other two.
 - **No GSAP.** It was considered for this pass and left out: every move here
   is a transform or opacity change the deck's own `Timeline`, WAAPI and spring

@@ -4,14 +4,14 @@ The four Berlin cards were laid out from a screenshot, not a Figma frame, so
 there are no frame numbers to compare with. What is checked instead is what
 would actually break at a stand:
 
-  * the loop is in the storyboard's order — 43s plus the second closer that
-    is in the deck for comparison, 51s while both are there
+  * the loop is in the storyboard's order and 43s long (+8s if a second
+    closer is ever put back in to be compared)
   * nothing overflows its box, and nothing leaves the 1920x1080 stage
   * the pipeline's highlight frame sits exactly on one step at a time, in
     order, twice, is gone between passes, and replays on a second visit
   * the logo wall is six free-standing marks on their slots, with no cells
-  * both closers draw the same QR, and the outro's geometry is the previous
-    decks' to the pixel
+  * the closer's geometry is the previous decks' outro to the pixel, it draws
+    the QR, and its raffle copy is the confirmed wording
   * every card is fully built under reduced motion, with nothing lit
   * the layout is unchanged when the stage is scaled down to a laptop
 
@@ -33,6 +33,8 @@ CHROME = (pathlib.Path.home()
 CORE = ["berlinPipeline", "berlinLogos", "berlinOwnership"]
 CLOSERS = {"berlinOutro", "berlinIdentity"}
 STEPS = ["Upload", "Scan", "Store", "Transform", "Secure", "Deliver"]
+RAFFLE = ("Enter the raffle. Win a Lego Polaroid OneStep camera. "
+          "Drawn at the stand on 1 December.")
 WALL = [(510, 455), (960, 455), (1410, 455), (510, 620), (960, 620), (1410, 620)]
 HOLD = "playing=false; clearTimeout(timer); clearInterval(tickTimer);"
 
@@ -175,7 +177,7 @@ def geometry(pg, tag, types):
 
     sigs = {}
     if "berlinOutro" in at:
-        print(f"[{tag}] closer B — the previous outro")
+        print(f"[{tag}] card 4 — the raffle outro")
         pg.evaluate(f"deck.slides[{at['berlinOutro']}].float=false;"
                     f"deck.slides[{at['berlinOutro']}].typing=false;renderDeck();"
                     f"enter({at['berlinOutro']});" + HOLD)
@@ -191,14 +193,27 @@ def geometry(pg, tag, types):
         line = boxes(".hb-outro-line")[0]
         check("headline is two lines", 120 < line["h"] < 170, line["h"])
         check("headline clears the glyph", line["y"] + line["h"] + 20 <= 497, line["y"] + line["h"])
-        sub, qr, meta = boxes(".hb-outro-sub")[0], boxes(".hb-outro-qr")[0], boxes(".hb-outro-meta")[0]
+        sub, qr = boxes(".hb-outro-sub")[0], boxes(".hb-outro-qr")[0]
         # 14px is the previous outro's own gap for a two-line sign-off; the
         # code's box is mostly quiet zone, so the ink is a further ~20px down
         check("sign-off is two lines and clears the code",
               sub["y"] + sub["h"] + 12 <= qr["y"], (sub["y"] + sub["h"], qr["y"]))
-        check("mono line sits under the code, inside the stage",
-              meta["y"] >= qr["y"] + qr["h"] + 16 and meta["y"] + meta["h"] <= 1080 - 60,
-              (meta["y"], meta["h"]))
+        check("nothing is set under the code", pg.evaluate(
+            "!document.querySelector('.slide.active .hb-outro-meta')"))
+        # the raffle copy, as confirmed in EVENT.md, with no placeholder left
+        said = pg.evaluate("document.querySelector('.slide.active .hb-outro-sub').innerText")
+        check("raffle copy is the confirmed wording", " ".join(said.split()) == RAFFLE, said)
+        check("no bracketed placeholder is left on the card", "[" not in pg.evaluate(
+            "document.querySelector('.slide.active').innerText"))
+        # the second line is the wide one and runs across the globe: it has to
+        # stay clear of the corner files' telemetry on both sides
+        wide = pg.evaluate("""(()=>{const el=document.querySelector('.slide.active .hb-outro-sub');
+            const r=document.createRange(); r.selectNodeContents(el);
+            const k=document.getElementById('stage').getBoundingClientRect().width/1920;
+            const b=r.getBoundingClientRect(), s=document.getElementById('stage').getBoundingClientRect();
+            return [(b.left-s.left)/k, (b.right-s.left)/k]})()""")
+        check("sign-off stays inside the centre column", wide[0] >= 480 and wide[1] <= 1440,
+              [round(w) for w in wide])
         check("globe and the four corner files are there", pg.evaluate(
             "!!document.querySelector('.slide.active .hb-globe svg') && "
             "document.querySelectorAll('.slide.active .hb-node').length") == 4)
@@ -207,7 +222,7 @@ def geometry(pg, tag, types):
 
     if "berlinIdentity" not in at:
         return seen, sigs
-    print(f"[{tag}] closer A — identity + raffle (split)")
+    print(f"[{tag}] split raffle (only if it is in the deck)")
     pg.evaluate(f"enter({at['berlinIdentity']});" + HOLD)
     pg.wait_for_timeout(1300)
     panel = boxes(".bi-raffle")[0]

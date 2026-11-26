@@ -1394,13 +1394,6 @@
   .hb-outro-qr{position:absolute;left:857px;top:711px;
     width:204px;height:204px;z-index:2}
   .hb-outro-qr svg{width:100%;height:100%;display:block}
-  /* one small mono line under the code, for the cut that has one (Berlin's
-     "Since 2011 · Stand"). Optional: the Expo and Webflow outros leave `meta`
-     unset and draw nothing here. */
-  .hb-outro-meta{position:absolute;left:0;right:0;top:947px;text-align:center;z-index:2;
-    font-family:var(--cmono);font-size:14px;letter-spacing:.18em;line-height:1.065;
-    text-transform:uppercase;color:#8e8e8e;white-space:pre;
-    text-box-trim:trim-both;text-box-edge:cap alphabetic}
   .hb-sign{position:absolute;left:867px;top:186px;width:185px;height:33px;z-index:2}
   .hb-sign svg{height:100%;width:auto;display:block}
 
@@ -2180,8 +2173,8 @@
         <button data-type="berlinPipeline">Berlin · Pipeline</button>
         <button data-type="berlinLogos">Berlin · Logo wall</button>
         <button data-type="berlinOwnership">Berlin · Ownership line</button>
-        <button data-type="berlinOutro">Berlin · Closer B (globe outro)</button>
-        <button data-type="berlinIdentity">Berlin · Closer A (split)</button>
+        <button data-type="berlinOutro">Berlin · Raffle outro</button>
+        <button data-type="berlinIdentity">Berlin · Split raffle (unused)</button>
         <button data-type="commerceFlow">Expo · Product flow</button>
         <button data-type="commerceBenefits">Expo · Benefits</button>
         <button data-type="commerceMetric">Expo · Proof point</button>
@@ -2470,19 +2463,17 @@ function Timeline({reduced=false}={}){
 }
 
 /* ---------------- default deck ---------------- */
-/* ---- Berlin — four-card TV loop, with two candidate closers -----------
+/* ---- Berlin — 43-second, four-card TV loop ----------------------------
    The stand's banner states the problem and claims it; the screen proves it
    and hands it back to the person in the room. Pipeline (24s), the customers
    running it (5s), the one line addressed to the visitor (6s), then identity
    and the raffle (8s) — the longest card after the pipeline, because scanning
    a code takes longer than reading a line.
 
-   THE CLOSER IS CURRENTLY IN THE DECK TWICE, on purpose, so the two can be
-   compared on the screen they will run on: `berlinOutro` (the previous decks'
-   globe outro carrying Berlin's copy) and then `berlinIdentity` (the
-   storyboard's split layout). They sit back to back, so the arrow keys flip
-   between them. That makes the loop 51s rather than the storyboard's 43;
-   delete whichever loses and it is 43 again. Both draw the same QR.
+   The closer is `berlinOutro`: the previous decks' globe outro carrying
+   Berlin's copy. The storyboard's split layout (`berlinIdentity`) was built
+   and compared against it and lost; its card type is still in the template
+   and the add-slide menu, but it is not in the loop.
 
    The storyboard lists the pipeline as "12s, twice per loop", back to back.
    It is one 24s slide whose highlight walks the row twice (`passes`), not two
@@ -2491,9 +2482,10 @@ function Timeline({reduced=false}={}){
    there, which is the point — a glance almost always lands on the message.
 
    No corner glyph: cards 1 and 4 carry the lockup themselves and the
-   storyboard draws none on the other two. Bracketed copy ([prize], [day],
-   [time], [no]) is the storyboard's own placeholder text for facts that are
-   still open — see EVENT.md. It stays visibly bracketed until it is real. */
+   storyboard draws none on the other two. The raffle copy is the confirmed
+   wording — see EVENT.md — and its line break is written in: three sentences
+   on three lines would run into the code, so the call and the prize share the
+   first line and the draw takes the second. */
 const DEFAULT_DECK = {
   settings: { duration: 6, fade: 480, watermark: false },
   slides: [
@@ -2509,21 +2501,11 @@ const DEFAULT_DECK = {
       heading:'Don\u2019t let file handling\nbecome your job.',
       accent:'your job.' },
 
-    // closer, version B — built on the previous animation
+    // the closer: the previous decks' outro, with Berlin's raffle
     { type:'berlinOutro', duration:8, layout:'outro',
       title:'File infrastructure\nfor the enterprise.',
-      sub:'Enter the raffle\nWin [prize]. Drawn [day] at [time].',
-      meta:'Since 2011  \u00b7  Stand [no]',
-      qr:true },
-
-    // closer, version A — the storyboard's split layout, kept to compare
-    { type:'berlinIdentity', duration:8,
-      tagline:'File infrastructure for the enterprise.',
-      meta:'Since 2011  \u00b7  Stand [no]',
-      raffleTitle:'Enter the raffle',
-      raffleLine:'Win [prize]. Drawn [day] at [time].',
-      scan:'Scan to\nenter',
-      qrConfirmed:true }
+      sub:'Enter the raffle. Win a Lego Polaroid OneStep camera.\nDrawn at the stand on 1 December.',
+      qr:true }
   ]
 };
 
@@ -2931,16 +2913,16 @@ const R = {
       }).join(' ')}</div>`).join('');
     return `<div class="bo-wrap"><div class="bo-head">${lines}</div></div>`;
   },
-  /* ---- Berlin closer, version B: the previous decks' outro ----
+  /* ---- Berlin closer: the previous decks' outro ----
      The whole Webflow/Expo composition and its renderer — globe, four corner
      files typing their telemetry, lockup, headline, sparkling glyph, sign-off
-     and the QR in its original white-on-dark form — carrying Berlin's copy.
-     `meta` is the one addition: the small mono line under the code. */
+     and the QR in its original white-on-dark form — carrying Berlin's copy. */
   berlinOutro(s){
     return R.board({...s,layout:'outro',globe:true,float:true,qr:s.qr!==false});
   },
-  /* ---- Berlin closer, version A: identity, and the raffle on the right half ----
-     The storyboard's split layout. `qrConfirmed` decides whether the code is
+  /* ---- the storyboard's closer: identity, and the raffle on the right half ----
+     The split layout. It lost to berlinOutro and is not in the loop; the type
+     is kept for the editor. `qrConfirmed` decides whether the code is
      drawn: it is on, because the booth uses the same code as the previous
      decks (assets/qr/booth-qr.png). Turn it off and the plate reads "QR to
      come" instead of showing a code that goes somewhere unintended. */
@@ -3702,8 +3684,7 @@ const R = {
          </div>
          <div class="hb-mark reveal d4">${GLYPH}</div>
          ${s.sub?`<div class="hb-outro-sub reveal d5">${emojiHTML(s.sub,'hb-wave')}</div>`:''}
-         ${s.qr?`<div class="hb-outro-qr reveal d5">${QR}</div>`:''}
-         ${s.meta?`<div class="hb-outro-meta reveal d5">${esc(s.meta)}</div>`:''}`
+         ${s.qr?`<div class="hb-outro-qr reveal d5">${QR}</div>`:''}`
       : `<div class="hb-logo">${LOGO}</div>
          <div class="hb-title">${multiline(title)}</div>`;
     /* [class, x, y, size] — the storyboard scatters five, two sizes */
@@ -5898,8 +5879,8 @@ const TYPE_LABEL = {statement:'Statement', number:'Number', chart:'Chart', stats
   commerceLogos:'Expo · Logo wall', commerceInfrastructure:'Expo · Infrastructure',
   commerceOutro:'Expo · Booth CTA',
   berlinPipeline:'Berlin · Pipeline', berlinLogos:'Berlin · Logo wall',
-  berlinOwnership:'Berlin · Ownership line', berlinOutro:'Berlin · Closer B (globe outro)',
-  berlinIdentity:'Berlin · Closer A (split)'};
+  berlinOwnership:'Berlin · Ownership line', berlinOutro:'Berlin · Raffle outro',
+  berlinIdentity:'Berlin · Split raffle (unused)'};
 const VARIANT_LABEL = {
   'assemble':'Pixel assembly — lockup',
   'rise':'Cinematic rise — lockup',
@@ -5980,7 +5961,6 @@ function fieldsFor(s, i){
     case 'berlinOutro': return dur+`
       <label class="f"><span>Headline (line breaks allowed)</span><textarea data-f="title">${esc(s.title||'')}</textarea></label>
       <label class="f"><span>Sign-off (line breaks allowed)</span><textarea data-f="sub">${esc(s.sub||'')}</textarea></label>
-      <label class="f"><span>Small mono line under the code</span><input type="text" data-f="meta" value="${esc(s.meta||'')}"></label>
       <label class="chk"><input type="checkbox" data-f="qr" ${s.qr!==false?'checked':''}> Show the QR</label>`
       + note('The previous decks\u2019 outro \u2014 globe, corner files, sparkling glyph \u2014 with Berlin\u2019s copy. The code is assets/qr/booth-qr.png; the build prints where it points.');
     case 'berlinIdentity': return dur+`
@@ -6261,8 +6241,8 @@ const NEW = {
   berlinPipeline:{type:'berlinPipeline',duration:24,passes:2,heading:'Your entire file pipeline.',accent:'One integration.'},
   berlinLogos:{type:'berlinLogos',duration:5,title:'Already running in production at',logos:'L\u2019Or\u00e9al, SoundCloud, Zapier, Aryeo, Prezly, Sequoia'},
   berlinOwnership:{type:'berlinOwnership',duration:6,heading:'Don\u2019t let file handling\nbecome your job.',accent:'your job.'},
-  berlinOutro:{type:'berlinOutro',duration:8,layout:'outro',title:'File infrastructure\nfor the enterprise.',sub:'Enter the raffle\nWin [prize]. Drawn [day] at [time].',meta:'Since 2011  \u00b7  Stand [no]',qr:true},
-  berlinIdentity:{type:'berlinIdentity',duration:8,tagline:'File infrastructure for the enterprise.',meta:'Since 2011  \u00b7  Stand [no]',raffleTitle:'Enter the raffle',raffleLine:'Win [prize]. Drawn [day] at [time].',scan:'Scan to\nenter',qrConfirmed:true},
+  berlinOutro:{type:'berlinOutro',duration:8,layout:'outro',title:'File infrastructure\nfor the enterprise.',sub:'Enter the raffle. Win a Lego Polaroid OneStep camera.\nDrawn at the stand on 1 December.',qr:true},
+  berlinIdentity:{type:'berlinIdentity',duration:8,tagline:'File infrastructure for the enterprise.',meta:'',raffleTitle:'Enter the raffle',raffleLine:'Win a Lego Polaroid OneStep camera.',scan:'Scan to\nenter',qrConfirmed:true},
   commerceFlow:{type:'commerceFlow',duration:10,heading:'Every product image, optimized and fast. Automatically.'},
   commerceBenefits:{type:'commerceBenefits',duration:11},
   commerceMetric:{type:'commerceMetric',duration:6,value:'2x faster page loads.',line:'Faster pages, more sales.',quote:'This way, we get the absolute most speed we can when loading our web pages across mobile devices.',attribution:'Sam McKinney, Director of Agency Services at Zephyr',by:'Zephyr'},

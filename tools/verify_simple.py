@@ -22,8 +22,7 @@ SHOTS = {
     0: [300, 700, 2100, 3100, 5700, 11100, 12600, 14100, 23100],
     1: [250, 650, 1500],               # title, then the six marks in reading order
     2: [250, 600, 1500],               # the line arriving word by word
-    3: [400, 1200, 3000, 6000],        # closer B: the outro building, then typed out
-    4: [300, 800, 1600],               # closer A: identity, then the raffle panel
+    3: [400, 1200, 3000, 6000],        # the raffle outro building, then typed out
 }
 
 # the bundled driver resolves an x64 path on this machine; use the arm64 build

@@ -23,19 +23,26 @@ Working source of truth for this booth cut. Do not invent event facts.
   2. **Logo wall** (5s). "Already running in production at" L'Oréal,
      SoundCloud, Zapier, Aryeo, Prezly, Sequoia.
   3. **Ownership** (6s). "Don't let file handling become your job."
-  4. **Identity + raffle** (8s). Uploadcare lockup, "File infrastructure for
-     the enterprise.", "Since 2011 · Stand [no]"; on the right half "Enter the
-     raffle", "Win [prize]. Drawn [day] at [time].", a QR and "Scan to enter".
+  4. **Identity + raffle** (8s). As storyboarded: Uploadcare lockup, "File
+     infrastructure for the enterprise.", "Since 2011 · Stand [no]"; on the
+     right half the raffle, a QR and "Scan to enter". **As built:** see the
+     closing card below.
+- **Raffle** (confirmed 26 Nov 2026). On-screen copy, verbatim: "Enter the
+  raffle. Win a Lego Polaroid OneStep camera. Drawn at the stand on
+  1 December."
+  - Prize: a Lego Polaroid OneStep camera.
+  - Draw: at the stand, on 1 December.
 - Decisions made on the build, 26 Nov 2026:
   - **The raffle QR is the same code the previous decks used**:
     `assets/qr/booth-qr.png`, which decodes to `https://l.ead.me/bgyXox`.
     Both closing cards draw it.
   - **The logo wall has no boxes**; it follows the previous decks' wall
     (centred title, free-standing marks).
-  - **The closing card is undecided between two versions**, both in the loop
-    for comparison: B, the previous decks' globe outro with Berlin's copy, and
-    A, the storyboard's split identity/raffle layout. The loop is 51s while
-    both are in and 43s once one is removed.
+  - **The closing card is the previous decks' globe outro** with Berlin's
+    headline and the raffle copy above the QR. The storyboard's split
+    identity/raffle layout was built, compared and dropped. The loop is 43s.
+  - **"Since 2011 · Stand [no]" is not on screen.** It was removed from the
+    closing card on request.
 - The storyboard's reasoning, kept because it decides the order: the stand's
   banner states the problem and claims it, the screen proves it and hands it
   back to the person in the room. The pipeline holds 24 of 43 seconds so a
@@ -48,15 +55,13 @@ Working source of truth for this booth cut. Do not invent event facts.
 
 From the storyboard's own "still open" list:
 
-- Prize, draw day and time, stand number. On screen these are still the
-  storyboard's bracketed placeholders.
+- Stand number. It is no longer shown on screen, so nothing waits on it.
 - Sequoia reads as the VC: disambiguate, or swap for Zola. There is no Zola
   mark in `assets/logos/` yet.
 - Screen orientation, portrait or landscape. The deck is built landscape.
 
 Not answered by the storyboard:
 
-- Which closing card stays, A or B.
 - Whether `https://l.ead.me/bgyXox` already lands on the Berlin raffle page.
   The code is the previous event's by decision; where the short link points is
   set on the link service, not here, and has not been checked for Berlin.
