@@ -1,9 +1,17 @@
 # AGENTS.md — Berlin booth
 
 This is the **Berlin** cut. It was cloned from the Ecommerce Expo booth deck
-(`../ecommerce-expo` @ `3df8c5a`), and is isolated on local branch `berlin`
-with no remote. Never edit `../ecommerce-expo` or `../webflow-conf` from this
-workspace.
+(`../ecommerce-expo` @ `3df8c5a`), and lives on branch `berlin` of its own
+remote, `danieltroc-designer/uc-berlin`. Never edit `../ecommerce-expo` or
+`../webflow-conf` from this workspace, and never push to their remotes.
+
+Pushing `berlin` redeploys https://uc-berlin.vercel.app (Vercel project
+`uc-berlin`, team `design-tiugo`): `/` and `/booth` are the Berlin loop,
+`/full` is the inherited full deck. It serves the committed `dist/` as static
+files — `vercel.json` pins the framework to none, because Vercel otherwise
+sees `requirements.txt`, builds a Python app and fails for want of an
+entrypoint. So rebuild and commit `dist/` before pushing; nothing builds
+there.
 
 Read `EVENT.md` before changing event copy or assets. Confirmed facts go there;
 never infer booth details, giveaway copy, QR destinations, or customer claims.

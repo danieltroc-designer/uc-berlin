@@ -6,7 +6,9 @@ Working source of truth for this booth cut. Do not invent event facts.
 
 - Working name: **Berlin**. The event's official name is not recorded here.
 - This folder is an isolated clone of the Ecommerce Expo booth deck
-  (`../ecommerce-expo` @ `3df8c5a`). It has no remote.
+  (`../ecommerce-expo` @ `3df8c5a`), with its own repository,
+  `danieltroc-designer/uc-berlin`, and its own public link,
+  https://uc-berlin.vercel.app (26 Nov 2026).
 - The loop follows the "TV loop" storyboard (a Claude artifact, supplied as a
   screenshot on 26 Nov 2026): **43 seconds, 4 cards, 50" landscape**.
   1. **Pipeline** (24s: 12s, twice per loop). "Your entire file pipeline. /

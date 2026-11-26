@@ -11,8 +11,10 @@ It was cloned from the Ecommerce Expo deck at `../ecommerce-expo`.
 ## Isolation
 
 - Do **not** edit `../ecommerce-expo` or `../webflow-conf` from this chat.
-- Do **not** push anywhere. This clone has no `origin` until a dedicated
-  Berlin remote is added.
+- `origin` is the dedicated Berlin remote,
+  `git@github.com:danieltroc-designer/uc-berlin.git`, branch `berlin`. Every
+  push to it redeploys the public link, https://uc-berlin.vercel.app, so push
+  only when the user asks. Never push to the Expo or Webflow remotes.
 - The default deck is the four-card Berlin loop. The Ecommerce Expo and
   Webflow card types are still in the template but are not in the loop; do
   not reuse their copy, QR, or customer claims as Berlin facts.
