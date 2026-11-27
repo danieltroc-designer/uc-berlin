@@ -34,7 +34,7 @@ CORE = ["berlinPipeline", "berlinLogos", "berlinOwnership"]
 CLOSERS = {"berlinOutro", "berlinIdentity"}
 STEPS = ["Upload", "Scan", "Store", "Transform", "Secure", "Deliver"]
 RAFFLE = ("Enter the raffle. Win a Lego Polaroid OneStep camera. "
-          "Drawn at the stand on 1 December.")
+          "Drawn at the stand on Tuesday, 3:15 PM.")
 WALL = [(510, 455), (960, 455), (1410, 455), (510, 620), (960, 620), (1410, 620)]
 HOLD = "playing=false; clearTimeout(timer); clearInterval(tickTimer);"
 

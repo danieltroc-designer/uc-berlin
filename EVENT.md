@@ -28,11 +28,15 @@ Working source of truth for this booth cut. Do not invent event facts.
      infrastructure for the enterprise.", "Since 2011 · Stand [no]"; on the
      right half the raffle, a QR and "Scan to enter". **As built:** see the
      closing card below.
-- **Raffle** (confirmed 26 Nov 2026). On-screen copy, verbatim: "Enter the
-  raffle. Win a Lego Polaroid OneStep camera. Drawn at the stand on
-  1 December."
+- **Raffle** (confirmed 26 Nov 2026; draw line revised 27 Nov). On-screen
+  copy, verbatim: "Enter the raffle. Win a Lego Polaroid OneStep camera.
+  Drawn at the stand on Tuesday, 3:15 PM."
   - Prize: a Lego Polaroid OneStep camera.
-  - Draw: at the stand, on 1 December.
+  - Draw: at the stand, Tuesday at 3:15 PM. The earlier wording gave the date
+    instead, 1 December, which in 2026 is a Tuesday; the screen now names the
+    day and time and not the date.
+  - The time is set "3:15 PM": capitals, no full stops, a (non-breaking)
+    space before it.
   - On screen the prize, "Lego Polaroid OneStep camera", is set in brand
     yellow (27 Nov 2026).
 - Decisions made on the build, 26 Nov 2026:
