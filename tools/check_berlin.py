@@ -117,6 +117,8 @@ def geometry(pg, tag, types):
     check("16px gutters", all(cards[i + 1]["x"] - cards[i]["x"] - cards[i]["w"] == 16 for i in range(5)))
     names = pg.evaluate("[...document.querySelectorAll('.slide.active .bp-step')].map(e=>e.textContent)")
     check("steps in pipeline order", names == STEPS, names)
+    sla = pg.evaluate("[...document.querySelectorAll('.slide.active .bp-proof')].pop().textContent")
+    check("Deliver claims the 99.99% SLA", " ".join(sla.split()) == "Global CDN, 99.99% SLA", sla)
     # the copy column is 216px; a proof line wider than that would be clipped
     # by nothing and simply run over the panel's padding
     proofs = boxes(".bp-proof")

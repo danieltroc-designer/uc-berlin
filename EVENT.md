@@ -19,7 +19,8 @@ Working source of truth for this booth cut. Do not invent event facts.
      - Store — Ours or your own
      - Transform — Resize, crop, convert, optimize
      - Secure — Signed URLs, access logs
-     - Deliver — Global CDN, 99.9% SLA
+     - Deliver — Global CDN, 99.99% SLA (the storyboard read 99.9%;
+       corrected to 99.99% on 27 Nov 2026)
   2. **Logo wall** (5s). "Already running in production at" L'Oréal,
      SoundCloud, Zapier, Aryeo, Prezly, Sequoia.
   3. **Ownership** (6s). "Don't let file handling become your job."
@@ -68,9 +69,9 @@ Not answered by the storyboard:
   The code is the previous event's by decision; where the short link points is
   set on the link service, not here, and has not been checked for Berlin.
 - Event dates and venue.
-- Whether the proof lines need sign-off as claims: "files up to 5 TB",
-  "99.9% SLA", "Since 2011". They were read off a small screenshot; check them
-  against the full-size storyboard.
+- Whether the other proof lines need sign-off as claims, "files up to 5 TB"
+  in particular. They were read off a small screenshot; check them against
+  the full-size storyboard. (The SLA figure is settled: 99.99%.)
 - The storyboard's full-size `pipeline-card.png`, which this project has not
   seen. Card 1 and its six icons were built from the thumbnail.
 
