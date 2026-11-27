@@ -214,6 +214,14 @@ def geometry(pg, tag, types):
             return [(b.left-s.left)/k, (b.right-s.left)/k]})()""")
         check("sign-off stays inside the centre column", wide[0] >= 480 and wide[1] <= 1440,
               [round(w) for w in wide])
+        # the prize is picked out in brand yellow — colour only, so the line
+        # is exactly as wide as it was without it
+        hl = pg.evaluate("""(()=>{const el=document.querySelector('.slide.active .hb-outro-sub .hb-hl');
+            if(!el) return null; const cs=getComputedStyle(el);
+            return {text:el.textContent, ink:cs.color, bg:cs.backgroundColor}})()""")
+        check("the prize is picked out", bool(hl) and hl["text"] == "Lego Polaroid OneStep camera", hl and hl["text"])
+        check("in brand yellow, with no plate behind it", bool(hl) and hl["ink"] == "rgb(255, 207, 62)"
+              and hl["bg"] == "rgba(0, 0, 0, 0)", hl and (hl["ink"], hl["bg"]))
         check("globe and the four corner files are there", pg.evaluate(
             "!!document.querySelector('.slide.active .hb-globe svg') && "
             "document.querySelectorAll('.slide.active .hb-node').length") == 4)

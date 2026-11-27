@@ -32,6 +32,8 @@ Working source of truth for this booth cut. Do not invent event facts.
   1 December."
   - Prize: a Lego Polaroid OneStep camera.
   - Draw: at the stand, on 1 December.
+  - On screen the prize, "Lego Polaroid OneStep camera", is set in brand
+    yellow (27 Nov 2026).
 - Decisions made on the build, 26 Nov 2026:
   - **The raffle QR is the same code the previous decks used**:
     `assets/qr/booth-qr.png`, which decodes to `https://l.ead.me/bgyXox`.

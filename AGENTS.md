@@ -137,6 +137,13 @@ Things about the Berlin cards that are deliberate:
   the wide line is 802px, inside the centre column and clear of the corner
   files. The checker asserts the wording against `EVENT.md`'s and that no
   bracketed placeholder is left on the card.
+- **The prize is set in brand yellow.** `subAccent` names one phrase of the
+  sign-off and `accentHTML()` wraps it in `.hb-hl`, which only changes its
+  colour, so no line moves. `subAccentStyle:'white'` sets it in white instead.
+  A yellow plate behind dark type was built first and dropped on request: it
+  needed the line pitch opened to clear line two, and yellow type matches how
+  the other cards accent a phrase. Other outros leave `subAccent` unset and
+  are unchanged.
 - **The QR is the previous decks' code**, `assets/qr/booth-qr.png`, which the
   build prints as `https://l.ead.me/bgyXox`. That was a decision, not a
   leftover: see `EVENT.md`. It is drawn the way the outro always has, white

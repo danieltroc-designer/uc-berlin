@@ -605,6 +605,14 @@
     letter-spacing:-.48px;color:#bcbdc0;
     text-box-trim:trim-both;text-box-edge:cap alphabetic;
   }
+  /* One phrase of the sign-off picked out (`subAccent`) — on Berlin's outro,
+     the prize. It is set in brand yellow, the way the deck accents a phrase
+     everywhere else ("One integration.", "your job."); `subAccentStyle:'white'`
+     sets it in white instead, which is quieter. Colour only: the phrase keeps
+     its metrics, so neither line nor the code beneath them moves. A yellow
+     plate behind dark type was tried first and dropped on request. */
+  .hb-hl{color:var(--brand)}
+  .hb-hl.white{color:#fff}
 
   /* ---- the sign-off's hand actually waves ----
      Two nested elements, because a wave is two motions on different clocks: the
@@ -2505,6 +2513,7 @@ const DEFAULT_DECK = {
     { type:'berlinOutro', duration:8, layout:'outro',
       title:'File infrastructure\nfor the enterprise.',
       sub:'Enter the raffle. Win a Lego Polaroid OneStep camera.\nDrawn at the stand on 1 December.',
+      subAccent:'Lego Polaroid OneStep camera',
       qr:true }
   ]
 };
@@ -2540,6 +2549,15 @@ function emojiHTML(text, cls){
 }
 /* single-field headline, with a fallback that merges the old dimmed line1 +
    bright line2 into one flowing string so existing decks keep working. */
+/* wrap the first occurrence of `phrase` in already-escaped html. The phrase
+   is escaped the same way before it is looked for, so it matches text and
+   can never match inside a tag; one that straddles a line break simply does
+   not match and nothing is highlighted. */
+function accentHTML(html, phrase, cls){
+  const key = esc(String(phrase||'').trim());
+  const i = key ? html.indexOf(key) : -1;
+  return i<0 ? html : html.slice(0,i) + `<span class="${cls}">${key}</span>` + html.slice(i+key.length);
+}
 function headText(s){ return s.heading!=null ? s.heading : [s.line1,s.line2].filter(v=>v).join(' '); }
 function headText2(s){ return s.heading2!=null ? s.heading2 : [s.line1b,s.line2b].filter(v=>v).join(' '); }
 
@@ -3683,7 +3701,8 @@ const R = {
           <div class="hb-outro-line reveal d3">${multiline(title)}</div>
          </div>
          <div class="hb-mark reveal d4">${GLYPH}</div>
-         ${s.sub?`<div class="hb-outro-sub reveal d5">${emojiHTML(s.sub,'hb-wave')}</div>`:''}
+         ${s.sub?`<div class="hb-outro-sub reveal d5">${accentHTML(emojiHTML(s.sub,'hb-wave'),
+            s.subAccent, s.subAccentStyle==='white' ? 'hb-hl white' : 'hb-hl')}</div>`:''}
          ${s.qr?`<div class="hb-outro-qr reveal d5">${QR}</div>`:''}`
       : `<div class="hb-logo">${LOGO}</div>
          <div class="hb-title">${multiline(title)}</div>`;
@@ -5961,6 +5980,10 @@ function fieldsFor(s, i){
     case 'berlinOutro': return dur+`
       <label class="f"><span>Headline (line breaks allowed)</span><textarea data-f="title">${esc(s.title||'')}</textarea></label>
       <label class="f"><span>Sign-off (line breaks allowed)</span><textarea data-f="sub">${esc(s.sub||'')}</textarea></label>
+      <label class="f"><span>Phrase to pick out (must be on one line)</span><input type="text" data-f="subAccent" value="${esc(s.subAccent||'')}"></label>
+      <label class="f"><span>How it is picked out</span><select data-f="subAccentStyle">
+        <option value="yellow" ${s.subAccentStyle!=='white'?'selected':''}>Yellow</option>
+        <option value="white" ${s.subAccentStyle==='white'?'selected':''}>White</option></select></label>
       <label class="chk"><input type="checkbox" data-f="qr" ${s.qr!==false?'checked':''}> Show the QR</label>`
       + note('The previous decks\u2019 outro \u2014 globe, corner files, sparkling glyph \u2014 with Berlin\u2019s copy. The code is assets/qr/booth-qr.png; the build prints where it points.');
     case 'berlinIdentity': return dur+`
@@ -6241,7 +6264,7 @@ const NEW = {
   berlinPipeline:{type:'berlinPipeline',duration:24,passes:2,heading:'Your entire file pipeline.',accent:'One integration.'},
   berlinLogos:{type:'berlinLogos',duration:5,title:'Already running in production at',logos:'L\u2019Or\u00e9al, SoundCloud, Zapier, Aryeo, Prezly, Sequoia'},
   berlinOwnership:{type:'berlinOwnership',duration:6,heading:'Don\u2019t let file handling\nbecome your job.',accent:'your job.'},
-  berlinOutro:{type:'berlinOutro',duration:8,layout:'outro',title:'File infrastructure\nfor the enterprise.',sub:'Enter the raffle. Win a Lego Polaroid OneStep camera.\nDrawn at the stand on 1 December.',qr:true},
+  berlinOutro:{type:'berlinOutro',duration:8,layout:'outro',title:'File infrastructure\nfor the enterprise.',sub:'Enter the raffle. Win a Lego Polaroid OneStep camera.\nDrawn at the stand on 1 December.',subAccent:'Lego Polaroid OneStep camera',qr:true},
   berlinIdentity:{type:'berlinIdentity',duration:8,tagline:'File infrastructure for the enterprise.',meta:'',raffleTitle:'Enter the raffle',raffleLine:'Win a Lego Polaroid OneStep camera.',scan:'Scan to\nenter',qrConfirmed:true},
   commerceFlow:{type:'commerceFlow',duration:10,heading:'Every product image, optimized and fast. Automatically.'},
   commerceBenefits:{type:'commerceBenefits',duration:11},
